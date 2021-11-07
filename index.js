@@ -3,7 +3,7 @@
  */
 
 import {AppRegistry} from 'react-native';
-import App from './Grid';
+import App from './ItemGrid';
 import {name as appName} from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
