@@ -5,7 +5,7 @@ import styles from "./styles";
 const ItemView = () => {
 
   const [state, setState] = useState({
-    title:"Magic Health Potion", image:require('./img/HomeScreen.jpg') ,
+    title:"Magic Health Potion", image:require('./img/fire-bowl.png') ,
     description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates dolorem molestiae necessitatibus quod. Veniam facere nobis recusandae repudiandae iste voluptas minima aut repellendus nihil quis exercitationem quas, inventore iusto. Minima?", 
     icons:"4⚅     2⚂"
   });

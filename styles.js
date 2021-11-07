@@ -55,10 +55,11 @@ export default styles = StyleSheet.create({
       fontFamily:"roboto"
     },
     image: {
-      width: '100%',
-      height: 100,
+      width: '80%',
+      height: 81,
       resizeMode: 'cover',
       borderRadius: 5,
+      margin:10,
     },
     itemViewImage:{
       width: '40%',

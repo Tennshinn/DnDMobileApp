@@ -18,7 +18,7 @@ const ItemGrid = () => {
   return (
     <FlatGrid
       style={styles.gridView}
-      data={new Array(9).fill({ text: "Magic Potion of Healing", image: require('./img/HomeScreen.jpg') })}
+      data={new Array(9).fill({ text: "Magic Potion of Healing", image: require('./img/fire-bowl.png') })}
       renderItem={({ item: { text, image } }) => <Item text={text} image={image} />}
     />
   );
@@ -26,7 +26,7 @@ const ItemGrid = () => {
 
 const Items = () => {
   return (<View style={styles.body}>
-    <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>Support</Text>
+    <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>Healing</Text>
     <ItemGrid></ItemGrid>
   </View>);
 }
