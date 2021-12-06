@@ -3,7 +3,8 @@ import { FlatGrid } from 'react-native-super-grid';
 import styles from "./styles";
 import React, { Component, useState } from 'react';
 import ItemView from './ItemView';
- 
+import CreateCharacter from './CreateCharacter'; 
+
 const HOLD_TIME = 800;
 const DRAG_DELTA = 10;
 
@@ -188,7 +189,6 @@ const Items = () => {
     <ItemGrid items={state.items} onClick={itemClick} onDrop={itemDrop} ></ItemGrid>
   </View>);
 }
-
 const Characters = () => {
   const initalItems = number(new Array(9).fill(new ItemData("John"))
   .map((value, index)=>({...value, name:value.name+` ${index}`})
@@ -196,6 +196,9 @@ const Characters = () => {
 
   const [state, setState] = useState({
     items:initalItems,
+    inventory:false,
+    characterEditor:false,
+    selectedCharacter:0
   });
 
   function itemDrop(from, to) {
@@ -211,10 +214,25 @@ const Characters = () => {
     setState({...state, items:number(newItems) });
   }
 
-  return (<View style={styles.body}>
-    <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>Characters</Text>
-    <ItemGrid items={state.items} onDrop={itemDrop}></ItemGrid>
-    <Text style={[styles.text, { fontSize: 17, marginBottom: 10 }]}>( Hold to edit )</Text>
+  function itemHold(index){
+    setState({...state, selectedCharacter:index, characterEditor:true});
+  }
+
+  function itemClick(index){
+    setState({...state, selectedCharacter:index, inventory:true});
+  }
+
+  return (<View>
+    {state.characterEditor && <CreateCharacter/>}
+    {state.inventory && <Items/>}
+    {(!state.characterEditor && !state.inventory)
+    && <View style={styles.body}>
+      <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>Characters</Text>
+      <ItemGrid items={state.items} onDrop={itemDrop} onHold={itemHold} onClick={itemClick}></ItemGrid>
+      <Text style={[styles.text, { fontSize: 17, marginBottom: 10 }]}>( Hold to edit )</Text>
+      </View>
+    }
+    
   </View>);
 }
 
