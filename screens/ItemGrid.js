@@ -2,6 +2,7 @@ import { View, Image, Text } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import styles from "../styles";
 import React, { Component } from 'react';
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
  
 class Item extends Component {
   constructor(props) {
@@ -74,7 +75,7 @@ class Item extends Component {
       onStartShouldSetResponder={() => true}
     >
       <Image source={this.props.image} style={styles.image}></Image>
-      <Text
+      <Text 
         style={styles.text}
       >{this.props.text}</Text>
     </View>);
@@ -83,11 +84,12 @@ class Item extends Component {
 
 const ItemGrid = () => {
   return (
-    <FlatGrid
+    <FlatGrid 
       style={styles.gridView}
-      data={new Array(9).fill({ text: "Magic Potion of Healing", image: require('./img/fire-bowl.png') }).map((value, index)=>({...value, text:value.text+` ${index}`}) ) }
+      data={new Array(8).fill({ text: "Character name", image: require('../img/warrior.png') }).map((value, index)=>({...value, text:value.text+` ${index}`}) ) }
       renderItem={({ item: { text, image } }) => <Item text={text} image={image} />}
     />
+    
   );
 };
 
@@ -98,12 +100,13 @@ const Items = () => {
   </View>);
 }
 
-const Characters = () => {
+const Characters = ({navigation}) => {
   return (<View style={styles.body}>
     <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>Characters</Text>
     <ItemGrid></ItemGrid>
-    <Text style={[styles.text, { fontSize: 17, marginBottom: 10 }]}>( Hold to edit )</Text>
+    <Text onPress={()=>navigation.navigate('CreateCharacter')} style={[styles.text, { fontSize: 17, marginBottom: 10, marginTop:10}]}>( Click to add new )</Text>
+    <Text style={[styles.text, { fontSize: 17, marginBottom: 10}]}>( Hold to edit )</Text>
   </View>);
 }
 
-export default Items;
+export default Characters;

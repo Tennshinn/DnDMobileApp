@@ -16,7 +16,7 @@ const ItemView = () => {
     style={[styles.itemContainer, styles.itemView]}
   >
     <View style={{flexDirection:"row"}}>
-    <Image source={state.image} style={styles.itemViewImage}></Image>   
+    <Image source={state.image} style={styles.itemViewImage}></Image>
     <Text
       style={styles.itemTitle}
     >{state.title}</Text>
