@@ -32,15 +32,11 @@ class DraggedItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      xx:0,
-      yy:0,
-      elementX:0,
-      elementY:0,
       x:0,
       y:0,
       width:100,
       height:100,
-      dragged:false
+      visible:false
     }
   }
 
@@ -57,11 +53,11 @@ class DraggedItem extends Component {
         zIndex : 1000,
         elevation: 1000,
         position:  'absolute',
-        left:      this.state.elementX+this.state.x-this.state.width/2*0.1,// correct for upscale
-        top:       this.state.elementY+this.state.y-this.state.height/2*0.1-45,// constant is set through try and error 
+        left:      this.state.x-this.state.width/2*0.1,// correct for upscale
+        top:       this.state.y-this.state.height/2*0.1-45,// constant is set through try and error 
         width:this.state.width,
         height:this.state.height,
-        display:this.state.dragging ? "flex" : "none",
+        display:this.state.visible ? "flex" : "none",
         transform: [{ scale: 1.1 }] 
       }}
       
@@ -81,17 +77,21 @@ class Item extends Component {
       elementY:0,
       x:0,
       y:0,
-      xx:0,
-      yy:0,
       width:100,
       height:100,
       dragging:false,
-      dragStart:0
+      holdingStartTime:0
     }
   }
 
   updateDragged() {
-    this.callback(this.props.updateDragged, this.state);
+    this.callback(this.props.updateDragged, {
+      x:this.state.elementX+this.state.x,
+      y:this.state.elementY+this.state.y,
+      width:this.state.width,
+      height:this.state.height,
+      visible:this.state.dragging,
+    });
   }
 
   dragStart  = (event) => {
@@ -102,7 +102,7 @@ class Item extends Component {
         dragging:false,
         x:0,
         y:0,
-        dragStart: Date.now()
+        holdingStartTime: Date.now()
       }, this.updateDragged);
   }
 
@@ -136,7 +136,7 @@ class Item extends Component {
     const index=y*row_length+x;
 
     if (!this.state.dragging){
-      if (Date.now()-this.state.dragStart>=HOLD_TIME){
+      if (Date.now()-this.state.holdingStartTime>=HOLD_TIME){
           this.callback(this.props.onHold);
           console.log("hold "+this.props.index);
       }
@@ -156,6 +156,21 @@ class Item extends Component {
       y:0,
     }, this.updateDragged);
   }
+
+  onLayout = (event) =>  {
+    if(!this.state.dragging){
+      // save size and position relative to the page
+      this.view.measure( (fx, fy, width, height, pageX, pageY) => {
+        this.setState({
+          ...this.state,
+          width:width,
+          height:height,
+          elementX:pageX,
+          elementY:pageY,
+        }, this.updateDragged);
+        });
+      }
+  }
  
   render() {
     return (<View
@@ -165,7 +180,7 @@ class Item extends Component {
         position:  this.state.dragging ? 'absolute' : "relative",
         left:      this.state.dragging ? this.state.x : 0,
         top:       this.state.dragging ? this.state.y : 0,
-        transform: this.state.dragging ? [{ scale: 1.1 }] : []
+        transform: this.state.dragging ? [{ scale: 0.1 }] : []
       }}
       ref={view => { this.view = view; }}
       onResponderStart={this.dragStart}
@@ -175,19 +190,7 @@ class Item extends Component {
         (evt) => true
       }
       onStartShouldSetResponder={() => true}
-      onLayout={(event) => {
-        if(!this.state.dragging){
-        this.view.measure( (fx, fy, width, height, px, py) => {
-          this.setState({
-            ...this.state,
-            width:width,
-            height:height,
-            elementX:px,
-            elementY:py,
-          }, this.updateDragged)
-          });
-        }
-        }}
+      onLayout={this.onLayout}
     >
       <ItemCard image={this.props.image} name={this.props.name}
       ></ItemCard>
