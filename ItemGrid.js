@@ -17,31 +17,92 @@ class ItemData {
   }
 }
 
+function ItemCard(props) {
+  return (<View
+      style={styles.itemContainer}
+    >
+      <Image source={props.image} style={styles.image}></Image>
+      <Text
+        style={styles.text}
+      >{props.name}</Text>
+    </View>);
+}
+
+
+class DraggedItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      xx:0,
+      yy:0,
+      width:100,
+      height:100,
+      dragged:false
+    }
+  }
+
+  update(state) {
+    this.setState({
+      ...this.state,
+      ...state
+    })
+  }
+
+  render() {
+    return (<View
+      style={{
+        zIndex : 1000,
+        elevation: 1000,
+        position:  'absolute',
+        left:      this.state.xx-this.state.width/2,
+        top:       this.state.yy-this.state.height/2,
+        width:this.state.width,
+        height:this.state.height,
+        display:this.state.dragging ? "flex" : "none",
+        transform: [{ scale: 1.1 }] 
+      }}
+      
+    >
+      <ItemCard image={this.props.image} name={this.props.name}></ItemCard>
+    </View>);
+  }
+}
+
 class Item extends Component {
   constructor(props) {
     super(props);
-    console.log(props.index);
     this.state = {
-      startX:0,
-      startY:0,
+      startXOffset:0,
+      startYOffset:0,
+      elementX:0,
+      elementY:0,
       x:0,
       y:0,
+      xx:0,
+      yy:0,
+      width:100,
+      height:100,
       dragging:false,
-      dragStart:0,
-      message:""
+      dragStart:0
     }
+  }
+
+  updateDragged() {
+    this.callback(this.props.updateDragged, this.state);
   }
 
   dragStart  = (event) => {
     if(!this.state.dragging)
       this.setState({
-        startX:event.nativeEvent.pageX,
-        startY:event.nativeEvent.pageY,
+        startXOffset:event.nativeEvent.pageX,
+        startYOffset:event.nativeEvent.pageY,
+        elementX:event.nativeEvent.pageX-event.nativeEvent.locationX,
+        elementY:event.nativeEvent.pageY-event.nativeEvent.locationY,
         dragging:false,
         x:0,
         y:0,
         dragStart: Date.now()
-      });
+      }, this.updateDragged);
   }
 
   distance(ax, ay, bx, by){
@@ -51,15 +112,15 @@ class Item extends Component {
   }
 
   dragMove  = (event) => {
-    const x=event.nativeEvent.pageX-this.state.startX;
-    const y=event.nativeEvent.pageY-this.state.startY;
+    const x=event.nativeEvent.pageX-this.state.startXOffset;
+    const y=event.nativeEvent.pageY-this.state.startYOffset;
+    const new_dragging= Math.sqrt(x*x+y*y)>DRAG_DELTA;
     this.setState({
-      startX:this.state.startX,
-      startY:this.state.startY,
+      ...this.state,
       x:x,
       y:y,
-      dragging:this.state.dragging || Math.sqrt(x*x+y*y)>DRAG_DELTA,
-     });
+      dragging:this.state.dragging || new_dragging
+     }, this.updateDragged);
   }
 
   callback(f, ...args){
@@ -87,27 +148,24 @@ class Item extends Component {
       console.log("drop "+this.props.index+" to "+index);
     }
     this.setState({
-      startX:0,
-      startY:0,
+      startXOffset:0,
+      startYOffset:0,
       dragging:false,
       x:0,
       y:0,
-    });
+    }, this.updateDragged);
   }
  
   render() {
     return (<View
-      style={[styles.itemContainer,
-      {
+      style={{
         zIndex : this.state.dragging ? 1000: -1000,
         elevation: this.state.dragging ? 1000: -1000,
-        /*position:  this.state.dragging ? 'absolute' : "relative",*/
+        position:  this.state.dragging ? 'absolute' : "relative",
         left:      this.state.dragging ? this.state.x : 0,
         top:       this.state.dragging ? this.state.y : 0,
         transform: this.state.dragging ? [{ scale: 1.1 }] : []
-      }
-      ]
-      }
+      }}
       onResponderStart={this.dragStart}
       onResponderMove={this.dragMove}
       onResponderRelease={this.dragEnd}
@@ -115,30 +173,44 @@ class Item extends Component {
         (evt) => true
       }
       onStartShouldSetResponder={() => true}
+      onLayout={(event) => {
+        var {x, y, width, height} = event.nativeEvent.layout;
+        this.setState({
+          ...this.state,
+          width:width,
+          height:height,
+          xx:this.state.elementX+this.state.x,
+          yy:this.state.elementY+this.state.y
+        }, this.updateDragged)
+      }}
     >
-      <Image source={this.props.image} style={styles.image}></Image>
-      <Text
-        style={styles.text}
-      >{this.props.name}</Text>
+      <ItemCard image={this.props.image} name={this.props.name}
+      ></ItemCard>
     </View>);
   }
 }
 
-
 const ItemGrid = (props) => {
+  const dragged = React.createRef();
   const renderItem = ({ item: { name, image, index } }) => 
                       <Item name={name} image={image} index={index} 
                       onClick={props.onClick && (()=>props.onClick(index))}
                       onHold={props.onHold && (()=>props.onHold(index))}
                       onDrop={props.onDrop && ((target)=>props.onDrop(index, target))}
+                      updateDragged={(state)=>dragged.current && dragged.current.update(state)}
                       />;
   
   return (
-    <FlatGrid
-      style={styles.gridView}
-      data={props.items}
-      renderItem={renderItem}
-    />
+    <View style={styles.body}>
+      <FlatGrid
+        style={styles.gridView}
+        data={props.items}
+        renderItem={renderItem}
+      />
+      <DraggedItem ref={dragged}
+        name={props.items[0].name} image={props.items[0].image} index={props.items[0].index} 
+      ></DraggedItem>
+    </View>
   );
 };
 
