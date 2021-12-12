@@ -28,13 +28,16 @@ function ItemCard(props) {
     </View>);
 }
 
-
 class DraggedItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
       xx:0,
       yy:0,
+      elementX:0,
+      elementY:0,
+      x:0,
+      y:0,
       width:100,
       height:100,
       dragged:false
@@ -54,8 +57,8 @@ class DraggedItem extends Component {
         zIndex : 1000,
         elevation: 1000,
         position:  'absolute',
-        left:      this.state.xx-this.state.width/2,
-        top:       this.state.yy-this.state.height/2,
+        left:      this.state.elementX+this.state.x-this.state.width/2*0.1,// correct for upscale
+        top:       this.state.elementY+this.state.y-this.state.height/2*0.1-45,// constant is set through try and error 
         width:this.state.width,
         height:this.state.height,
         display:this.state.dragging ? "flex" : "none",
@@ -96,8 +99,6 @@ class Item extends Component {
       this.setState({
         startXOffset:event.nativeEvent.pageX,
         startYOffset:event.nativeEvent.pageY,
-        elementX:event.nativeEvent.pageX-event.nativeEvent.locationX,
-        elementY:event.nativeEvent.pageY-event.nativeEvent.locationY,
         dragging:false,
         x:0,
         y:0,
@@ -166,6 +167,7 @@ class Item extends Component {
         top:       this.state.dragging ? this.state.y : 0,
         transform: this.state.dragging ? [{ scale: 1.1 }] : []
       }}
+      ref={view => { this.view = view; }}
       onResponderStart={this.dragStart}
       onResponderMove={this.dragMove}
       onResponderRelease={this.dragEnd}
@@ -174,15 +176,18 @@ class Item extends Component {
       }
       onStartShouldSetResponder={() => true}
       onLayout={(event) => {
-        var {x, y, width, height} = event.nativeEvent.layout;
-        this.setState({
-          ...this.state,
-          width:width,
-          height:height,
-          xx:this.state.elementX+this.state.x,
-          yy:this.state.elementY+this.state.y
-        }, this.updateDragged)
-      }}
+        if(!this.state.dragging){
+        this.view.measure( (fx, fy, width, height, px, py) => {
+          this.setState({
+            ...this.state,
+            width:width,
+            height:height,
+            elementX:px,
+            elementY:py,
+          }, this.updateDragged)
+          });
+        }
+        }}
     >
       <ItemCard image={this.props.image} name={this.props.name}
       ></ItemCard>
