@@ -20,6 +20,12 @@ const Home= ({navigation}) => {
           <Text style={[styles.titleText]}>TAP TO OPEN</Text>
         </TouchableOpacity>
       </View>
+
+      <View style={styles.textContainer2}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Packages')} style={[styles.titleText]}>
+          <Text style={[styles.titleText]}>UPLOAD PACKAGE</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
     </ImageBackground>
   </View>
@@ -40,6 +46,17 @@ const styles = StyleSheet.create({
     alignItems:"center",
     transform: [{ translateY: 300 }],
     padding: 20,
+    height:80,
+    width:300,
+    backgroundColor: "#000000CC",
+    borderRadius:25,
+  },
+  textContainer2: {
+    justifyContent:"center",
+    alignItems:"center",
+    transform: [{ translateY: 300 }],
+    padding: 20,
+    marginTop:15,
     height:80,
     width:300,
     backgroundColor: "#000000CC",
