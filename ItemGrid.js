@@ -36,7 +36,9 @@ class DraggedItem extends Component {
       y:0,
       width:100,
       height:100,
-      visible:false
+      visible:false,
+      name:"",
+      image:require('./img/fire-bowl.png')
     }
   }
 
@@ -62,7 +64,7 @@ class DraggedItem extends Component {
       }}
       
     >
-      <ItemCard image={this.props.image} name={this.props.name}></ItemCard>
+      <ItemCard image={this.state.image} name={this.state.name}></ItemCard>
     </View>);
   }
 }
@@ -86,11 +88,13 @@ class Item extends Component {
 
   updateDragged() {
     this.callback(this.props.updateDragged, {
-      x:this.state.elementX+this.state.x,
-      y:this.state.elementY+this.state.y,
+      x:this.state.elementX+this.state.x || 0,
+      y:this.state.elementY+this.state.y || 0,
       width:this.state.width,
       height:this.state.height,
       visible:this.state.dragging,
+      name:this.props.name,
+      image:this.props.image,
     });
   }
 
@@ -183,6 +187,7 @@ class Item extends Component {
         transform: this.state.dragging ? [{ scale: 0.1 }] : []
       }}
       ref={view => { this.view = view; }}
+      
       onResponderStart={this.dragStart}
       onResponderMove={this.dragMove}
       onResponderRelease={this.dragEnd}
@@ -190,6 +195,8 @@ class Item extends Component {
         (evt) => true
       }
       onStartShouldSetResponder={() => true}
+      onResponderTerminationRequest={() => true}
+      onResponderTerminate={() => (this.setState({...this.state, dragging:false}))}
       onLayout={this.onLayout}
     >
       <ItemCard image={this.props.image} name={this.props.name}
@@ -210,7 +217,7 @@ const ItemGrid = (props) => {
   
   return (
     <View style={styles.body}>
-      <FlatGrid
+      <FlatGrid scrollEnabled={false}
         style={styles.gridView}
         data={props.items}
         renderItem={renderItem}
