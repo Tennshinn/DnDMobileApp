@@ -28,7 +28,7 @@ const DATA = [
 ];
 
 const Item = ({ item }) => (<View
-  style={[styles.itemContainer, {marginHorizontal:8, width:70, height:180}]}
+  style={[styles.itemContainer, {marginHorizontal:8, width:70, height:132}]}
 >
     <Text style={[styles.text, { fontSize: 14 }]} >{item.title}</Text></View>
 );
@@ -66,9 +66,9 @@ export default function Inventory() {
 
       {SHOW_PANEL_ICONS &&
       <LinearGradient colors={['#00000000', '#000000', '#000000ff']} 
-        style={{position:"absolute", bottom:0, width:"100%", height:250}}>
+        style={{position:"absolute", bottom:28, width:"100%", height:250}}>
         <FlatList
-        style={{position:"absolute", bottom:0}}
+        style={{position:"absolute", bottom:30}}
           contentContainerStyle={{alignItems: 'center', width:"100%", justifyContent: "center", display:"flex"}}
           data={DATA}
           renderItem={({item})=>(<Item item={item} />)}
