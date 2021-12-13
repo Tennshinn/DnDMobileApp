@@ -6,29 +6,31 @@ import Grid from '../grid/Grid';
 import ItemData from '../data/ItemData'; 
 import {number, dropItem} from '../grid/helpers'; 
 
+import LinearGradient from 'react-native-linear-gradient';
+
 const DATA = [
   {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "Attack",
+    id: "58694a0f-3da1-471f-bd96-14557asdsa11",
+    title: "All",
   },
   {
     id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
     title: "Healing",
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Tricks",
+    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+    title: "Attack",
   },
   {
-    id: "58694a0f-3da1-471f-bd96-14557asdsa11",
-    title: "Other",
+    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    title: "Tricks",
   },
 ];
 
 const Item = ({ item }) => (<View
-  style={[styles.itemContainer, {marginHorizontal:8, width:80}]}
+  style={[styles.itemContainer, {marginHorizontal:8, width:70, height:180}]}
 >
-    <Text style={[styles.text, { fontSize: 15 }]} >{item.title}</Text></View>
+    <Text style={[styles.text, { fontSize: 14 }]} >{item.title}</Text></View>
 );
 
 export default function Inventory() {
@@ -54,19 +56,27 @@ export default function Inventory() {
       return state.items[state.selectedItem];
     }
 
+    const SHOW_PANEL_ICONS = true;
     
     return (
       <View style={styles.body}>
       {state.itemView && <ItemDetails onPress={closeItemView} name={selectedItem().name} image={selectedItem().image} description={selectedItem().description}/>}
       <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>Healing</Text>
-      <Grid items={state.items} onClick={itemClick} onDrop={dropItem.bind(null, setState)} ></Grid>
-      <FlatList
-        style={{position:"absolute", bottom:0, width:"100%"}}
-        contentContainerStyle={{alignItems: 'center', width:"100%", justifyContent: "center", display:"flex"}}
-        data={DATA}
-        renderItem={({item})=>(<Item item={item} />)}
-        horizontal={true}
-        keyExtractor={(item) => item.id}
-      />
+      <Grid items={state.items} onClick={itemClick} onDrop={dropItem.bind(null, setState)} >
+
+      {SHOW_PANEL_ICONS &&
+      <LinearGradient colors={['#00000000', '#000000', '#000000ff']} 
+        style={{position:"absolute", bottom:0, width:"100%", height:250}}>
+        <FlatList
+        style={{position:"absolute", bottom:0}}
+          contentContainerStyle={{alignItems: 'center', width:"100%", justifyContent: "center", display:"flex"}}
+          data={DATA}
+          renderItem={({item})=>(<Item item={item} />)}
+          horizontal={true}
+          keyExtractor={(item) => item.id}
+        />
+      </LinearGradient>}
+      </Grid>
+      
     </View>);
   }

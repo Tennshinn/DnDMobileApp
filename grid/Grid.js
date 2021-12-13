@@ -21,6 +21,7 @@ export default function Grid(props) {
         data={props.items}
         renderItem={renderItem}
       />
+      {props.children}
       <ElevatedGridItem ref={dragged}
         name={props.items[0].name} image={props.items[0].image} index={props.items[0].index} 
       ></ElevatedGridItem>
