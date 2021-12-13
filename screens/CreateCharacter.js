@@ -71,7 +71,7 @@ const CreateCharacter= ({navigation}) => {
       <Text style={styles.topText}>Character Editor</Text>
       <Image
         style={styles.addImage}
-        source={require('./img/addImage.png')} />
+        source={require('../img/addImage.png')} />
 
     <SafeAreaView>
       <TextInput
