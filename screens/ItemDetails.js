@@ -1,5 +1,6 @@
 import { View, Image, Text, TouchableWithoutFeedback } from 'react-native';
 import styles from "../styles";
+import React from 'react';
 
 export default function ItemDetails(props) {
 
