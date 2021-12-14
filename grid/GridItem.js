@@ -43,6 +43,7 @@ export default class GridItem extends Component {
   dragStart  = (event) => {
     if(!this.state.dragging)
       this.setStateWithDragged({
+        ...this.state,
         startXOffset:event.nativeEvent.pageX,
         startYOffset:event.nativeEvent.pageY,
         dragging:false,
@@ -95,6 +96,7 @@ export default class GridItem extends Component {
       console.log("drop "+this.props.index+" to "+index);
     }
     this.setStateWithDragged({
+      ...this.state,
       startXOffset:0,
       startYOffset:0,
       dragging:false,
