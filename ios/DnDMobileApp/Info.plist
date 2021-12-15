@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -51,5 +51,16 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>dicefont.ttf</string>
+		<string>dicefont.woff</string>
+		<string>DPoly Eight-Sider.otf</string>
+		<string>DPoly Four-Sider.otf</string>
+		<string>DPoly Six-Sider.otf</string>
+		<string>DPoly Ten-Sider.otf</string>
+		<string>DPoly Twelve-Sider.otf</string>
+		<string>DPoly Twenty-Sider.otf</string>
+	</array>
 </dict>
 </plist>

@@ -70,9 +70,9 @@ export default styles = StyleSheet.create({
     },
     itemIcons:{
       color: PRIMARY,
-      fontSize:70,
+      fontSize:60,
       textAlign:"center",
-      fontFamily:"roboto",
+      fontFamily:"dicefont",
       position: 'absolute',
       bottom:20,
       start:60

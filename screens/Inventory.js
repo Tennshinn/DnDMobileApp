@@ -60,7 +60,7 @@ export default function Inventory() {
     
     return (
       <View style={styles.body}>
-      {state.itemView && <ItemDetails onPress={closeItemView} name={selectedItem().name} image={selectedItem().image} description={selectedItem().description}/>}
+      {state.itemView && <ItemDetails onPress={closeItemView} name={selectedItem().name} image={selectedItem().image} description={selectedItem().description} icons={selectedItem().icons}/>}
       <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>Healing</Text>
       <Grid items={state.items} onClick={itemClick} onDrop={dropItem.bind(null, setState)} >
 

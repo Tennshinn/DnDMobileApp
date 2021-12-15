@@ -12,6 +12,16 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		4875B27BAB654AF2BCF9B8FA /* dicefont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31C7F9413E5C4A61A900F00E /* dicefont.ttf */; };
+		64591759CD754A64865A1095 /* dicefont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0C77489D15524B1E92E0F3AD /* dicefont.ttf */; };
+		64CF3416E6F74296A8A263DD /* dicefont.svg in Resources */ = {isa = PBXBuildFile; fileRef = F6B192B3A84347709058BFC8 /* dicefont.svg */; };
+		373223721BCD470D812DC58C /* dicefont.woff in Resources */ = {isa = PBXBuildFile; fileRef = 70FF12F40D62481E94630656 /* dicefont.woff */; };
+		77DA0957C8DC40B19BE548F7 /* DPoly Eight-Sider.otf in Resources */ = {isa = PBXBuildFile; fileRef = E81F2304839147278CD8FDB6 /* DPoly Eight-Sider.otf */; };
+		5137A6D26395441C993B92D9 /* DPoly Four-Sider.otf in Resources */ = {isa = PBXBuildFile; fileRef = A9FABE23941B4906AD004646 /* DPoly Four-Sider.otf */; };
+		8C7BC317FF69479E9CBBD8FC /* DPoly Six-Sider.otf in Resources */ = {isa = PBXBuildFile; fileRef = 13663BA3D0D849DFBA2A906E /* DPoly Six-Sider.otf */; };
+		7D777D2F2902466F8A5B6E34 /* DPoly Ten-Sider.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8888215B23514B66BC9D495C /* DPoly Ten-Sider.otf */; };
+		C4F0662F66874C169ED45A5D /* DPoly Twelve-Sider.otf in Resources */ = {isa = PBXBuildFile; fileRef = FA7E12819D8243658004E5C2 /* DPoly Twelve-Sider.otf */; };
+		E0231C8BA6374E11AC2560C8 /* DPoly Twenty-Sider.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8893FEB93AD647E3959F5D76 /* DPoly Twenty-Sider.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +46,16 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DnDMobileApp/main.m; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DnDMobileApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		31C7F9413E5C4A61A900F00E /* dicefont.ttf */ = {isa = PBXFileReference; name = "dicefont.ttf"; path = "../fonts/dicefont.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0C77489D15524B1E92E0F3AD /* dicefont.ttf */ = {isa = PBXFileReference; name = "dicefont.ttf"; path = "../assets/fonts/dicefont.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F6B192B3A84347709058BFC8 /* dicefont.svg */ = {isa = PBXFileReference; name = "dicefont.svg"; path = "../assets/fonts/dicefont.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		70FF12F40D62481E94630656 /* dicefont.woff */ = {isa = PBXFileReference; name = "dicefont.woff"; path = "../assets/fonts/dicefont.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E81F2304839147278CD8FDB6 /* DPoly Eight-Sider.otf */ = {isa = PBXFileReference; name = "DPoly Eight-Sider.otf"; path = "../assets/fonts/DPoly Eight-Sider.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A9FABE23941B4906AD004646 /* DPoly Four-Sider.otf */ = {isa = PBXFileReference; name = "DPoly Four-Sider.otf"; path = "../assets/fonts/DPoly Four-Sider.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		13663BA3D0D849DFBA2A906E /* DPoly Six-Sider.otf */ = {isa = PBXFileReference; name = "DPoly Six-Sider.otf"; path = "../assets/fonts/DPoly Six-Sider.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8888215B23514B66BC9D495C /* DPoly Ten-Sider.otf */ = {isa = PBXFileReference; name = "DPoly Ten-Sider.otf"; path = "../assets/fonts/DPoly Ten-Sider.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FA7E12819D8243658004E5C2 /* DPoly Twelve-Sider.otf */ = {isa = PBXFileReference; name = "DPoly Twelve-Sider.otf"; path = "../assets/fonts/DPoly Twelve-Sider.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8893FEB93AD647E3959F5D76 /* DPoly Twenty-Sider.otf */ = {isa = PBXFileReference; name = "DPoly Twenty-Sider.otf"; path = "../assets/fonts/DPoly Twenty-Sider.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +129,7 @@
 				00E356EF1AD99517003FC87E /* DnDMobileAppTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				9994162565E24C149E1391B4 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -123,6 +144,24 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		9994162565E24C149E1391B4 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				31C7F9413E5C4A61A900F00E /* dicefont.ttf */,
+				0C77489D15524B1E92E0F3AD /* dicefont.ttf */,
+				F6B192B3A84347709058BFC8 /* dicefont.svg */,
+				70FF12F40D62481E94630656 /* dicefont.woff */,
+				E81F2304839147278CD8FDB6 /* DPoly Eight-Sider.otf */,
+				A9FABE23941B4906AD004646 /* DPoly Four-Sider.otf */,
+				13663BA3D0D849DFBA2A906E /* DPoly Six-Sider.otf */,
+				8888215B23514B66BC9D495C /* DPoly Ten-Sider.otf */,
+				FA7E12819D8243658004E5C2 /* DPoly Twelve-Sider.otf */,
+				8893FEB93AD647E3959F5D76 /* DPoly Twenty-Sider.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -214,6 +253,16 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				4875B27BAB654AF2BCF9B8FA /* dicefont.ttf in Resources */,
+				64591759CD754A64865A1095 /* dicefont.ttf in Resources */,
+				64CF3416E6F74296A8A263DD /* dicefont.svg in Resources */,
+				373223721BCD470D812DC58C /* dicefont.woff in Resources */,
+				77DA0957C8DC40B19BE548F7 /* DPoly Eight-Sider.otf in Resources */,
+				5137A6D26395441C993B92D9 /* DPoly Four-Sider.otf in Resources */,
+				8C7BC317FF69479E9CBBD8FC /* DPoly Six-Sider.otf in Resources */,
+				7D777D2F2902466F8A5B6E34 /* DPoly Ten-Sider.otf in Resources */,
+				C4F0662F66874C169ED45A5D /* DPoly Twelve-Sider.otf in Resources */,
+				E0231C8BA6374E11AC2560C8 /* DPoly Twenty-Sider.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
