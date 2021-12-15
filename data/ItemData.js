@@ -42,6 +42,6 @@ export default class ItemData {
 
       const toHash = [this.name, this.description];
       const hash = toHash.reduce((acc, curr)=>acc+hashString(curr), 0);
-      this.color = hslToHex(hash%360, 12, 65); // S and L same as PRIMARY_COLOR in style 
+      this.color = hslToHex(hash%360, 12, 65); // S and L were selected by trying different values 
     }
   }
