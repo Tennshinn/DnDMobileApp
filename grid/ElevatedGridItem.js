@@ -44,7 +44,7 @@ export default class ElevatedGridItem extends Component {
         }}
         
       >
-        <GridItemGraphics image={this.state.image} name={this.state.name}></GridItemGraphics>
+        <GridItemGraphics image={this.state.image} name={this.state.name} color={this.state.color}></GridItemGraphics>
       </View>);
     }
   }

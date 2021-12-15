@@ -8,9 +8,9 @@ import {number, dropItem} from '../grid/helpers';
 import Inventory from './Inventory'; 
 
 const Characters = () => {
-  const initalItems = number(new Array(9).fill(new ItemData("John"))
-  .map((value, index)=>({...value, name:value.name+` ${index}`})
-  ));
+  const initalItems = number(Array.from(
+    {length:9}, 
+    ()=>new ItemData("John "+(Math.random().toString()).substring(0, 5))));
 
   const [state, setState] = useState({
     items:initalItems,

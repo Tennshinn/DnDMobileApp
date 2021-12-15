@@ -3,11 +3,12 @@ import ElevatedGridItem from './ElevatedGridItem';
 import React  from 'react';
 import { View } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
+import styles from "../styles";
 
 export default function Grid(props) {
   const dragged = React.createRef();
-  const renderItem = ({ item: { name, image, index } }) => 
-                      <GridItem name={name} image={image} index={index} 
+  const renderItem = ({ item: { name, image, color, index } }) => 
+                      <GridItem name={name} image={image} index={index} color={color}
                       onClick={props.onClick && (()=>props.onClick(index))}
                       onHold={props.onHold && (()=>props.onHold(index))}
                       onDrop={props.onDrop && ((target)=>props.onDrop(index, target))}
@@ -23,7 +24,7 @@ export default function Grid(props) {
       />
       {props.children}
       <ElevatedGridItem ref={dragged}
-        name={props.items[0].name} image={props.items[0].image} index={props.items[0].index} 
+        name={props.items[0].name} image={props.items[0].image} index={props.items[0].index}
       ></ElevatedGridItem>
     </View>
   );

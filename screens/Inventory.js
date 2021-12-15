@@ -34,9 +34,9 @@ const Item = ({ item }) => (<View
 );
 
 export default function Inventory() {
-    const initalItems = number(new Array(9).fill(new ItemData())
-    .map((value, index)=>({...value, name:value.name+` ${index}`})
-    ));
+    const initalItems = number(Array.from(
+      {length:9}, 
+      ()=>new ItemData("Healing Potion "+(Math.random().toString()).substring(0, 5))));
   
     const [state, setState] = useState({
       items:initalItems,

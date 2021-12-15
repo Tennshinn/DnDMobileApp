@@ -32,6 +32,7 @@ export default class GridItem extends Component {
       visible:this.state.dragging,
       name:this.props.name,
       image:this.props.image,
+      color:this.props.color,
     });
   }
 
@@ -124,7 +125,7 @@ export default class GridItem extends Component {
     return (<View
       style={{
         // hide this element and display ElevatedGridItem isntead
-        display:this.state.dragging ? "none" : "flex",
+        display:this.state.dragging ? "none" : "flex"
       }}
       ref={view => { this.view = view; }}
       
@@ -139,7 +140,7 @@ export default class GridItem extends Component {
       onResponderTerminate={() => (this.setStateWithDragged({...this.state, dragging:false}))}
       onLayout={this.onLayout}
     >
-      <GridItemGraphics image={this.props.image} name={this.props.name}
+      <GridItemGraphics image={this.props.image} name={this.props.name} color={this.props.color}
       ></GridItemGraphics>
     </View>);
   }
