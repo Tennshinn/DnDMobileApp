@@ -1,0 +1,9 @@
+[Fireball]
+type="item"
+image="https:/"
+description="Ball made of fire."
+filter="((class=mage or class=paladin) and level>2) or (class=mage and level=1)"
+
+[Cleric]
+type="class"
+specializations = ["Knowledge", "Life", "Light", "Tempest", "War"]

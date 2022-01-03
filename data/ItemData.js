@@ -72,15 +72,16 @@ function lerpAngle(a, b, lerpFactor) // Lerps from angle a to b (both between 0.
 }
 
 export default class ItemData {
-  constructor(name, image, description, icons) {
+  constructor(name, image, description, icons, filter) {
     this.name = name ?? "Health Potion";
     this.image = image ?? require('../img/fire-bowl.png');
     this.description = description ?? `${Math.random()} Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates dolorem molestiae necessitatibus quod. Veniam facere nobis recusandae repudiandae iste voluptas minima aut repellendus nihil quis exercitationem quas, inventore iusto. Minima?`;
     this.icons = icons ?? parseDice("4d20    2d10");
+    this.filter = filter ?? "";
 
     const toHash = [this.name, this.description];
     const hash = toHash.reduce((acc, curr)=>acc+hashString(curr), 0);
     // 35 comes from PRIMARY_COLOR, S and L were selected by trying different values 
-    this.color = hslToHex(lerpAngle(hash%360, 35, 0.66), 15, 60);     
+    this.color = hslToHex(lerpAngle(hash%360, 35, 0.63), 15, 60);     
   }
 }
