@@ -1,5 +1,6 @@
 import toml from "toml";
 import mathjs from "mathjs";
+import ItemData from "./ItemData";
 
 class CharacterClass {
     constructor(name, specializations) {
@@ -8,14 +9,14 @@ class CharacterClass {
     }
 }
 
-function parsePackage(packageText) {
+function parsePackage(packageText, repository) {
     const package = toml.parse(packageText);
 
     for (const [key, value] of Object.entries(package)) {
         if (value.type=="item") {
-            new ItemData(key, value.image. value.description, value.filter);
+            repository.items.append(new ItemData(key, value.image. value.description, value.filter));
         } else if (value.type=="class") {
-            new CharacterClass(key, value.specializations);
+            repository.classes.append(new CharacterClass(key, value.specializations));
         }
     }
 }
@@ -42,7 +43,7 @@ export class Repository {
             }
         }
         return parser.evaluate(item.filter);
-    }    
+    } 
 }
 
 export class Character {
