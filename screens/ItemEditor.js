@@ -1,12 +1,10 @@
 import React, {useState} from "react";
-import { SafeAreaView, Image, StyleSheet, Text, View, TextInput, Dimensions, Button, Alert, ScrollView } from "react-native";
-
-let ScreenHeight = Dimensions.get("window").height;
-let ScreenWidth = Dimensions.get("window").width;
+import { SafeAreaView, Image, Text, View, TextInput, Button, Alert, ScrollView } from "react-native";
+import style from "../styles/style";
 
 const ItemEditor= ({navigation}) => {
   const [textInputName, setTextInputName] = useState('');
-  const [TextInputDescription, setTextInputDescription] = useState('');
+  const [textInputDescription, setTextInputDescription] = useState('');
   const [textInputTag, setTextInputTag] = useState('');
 
   const checkTextInput = () => {
@@ -21,7 +19,7 @@ const ItemEditor= ({navigation}) => {
       return;
     }
     
-    if(!TextInputDescription.trim()){
+    if(!textInputDescription.trim()){
       Alert.alert(
         "Oups :(",
         "Please enter description",
@@ -53,21 +51,21 @@ const ItemEditor= ({navigation}) => {
   }
 
   return (
-    <View style={styles.characterEditor}>
+    <View style={style.itemEditorWrapper}>
     <ScrollView>
-      <Text style={styles.topText}>Item Editor</Text>
+      <Text style={style.itemEditorTitle}>Item Editor</Text>
       <Image
-        style={styles.addImage}
+        style={style.itemEditorAddImage}
         source={require('../img/addImage.png')} />
     <SafeAreaView>
       <TextInput
-        style={styles.input}
+        style={style.itemEditorInput}
         placeholder="Name"
         onChangeText={(value) => setTextInputName(value)}
         placeholderTextColor="#CCC"
       />
       <TextInput
-        style={styles.inputDescription}
+        style={style.itemEditorInputDescription}
         placeholder="Description"
         onChangeText={(value) => setTextInputDescription(value)}
         placeholderTextColor="#CCC"
@@ -75,12 +73,12 @@ const ItemEditor= ({navigation}) => {
         numberOfLines={3}
       />
       <TextInput
-        style={styles.input}
+        style={style.itemEditorInput}
         placeholder="Tags, ex: #weapons #heavy"
         onChangeText={(value) => setTextInputTag(value)}
         placeholderTextColor="#CCC"
       />
-      <View style={styles.saveButtonContainer}>
+      <View style={style.itemEditorSaveButtonContainer}>
         <Button title={"Save"} onPress={checkTextInput} color="#DCB66A" />
       </View>
     </SafeAreaView>
@@ -88,55 +86,6 @@ const ItemEditor= ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  characterEditor: {
-    backgroundColor: "#000",
-    justifyContent: "flex-start",
-    alignItems: 'center',
-    height: ScreenHeight,
-  },
-  topText: {
-    textAlign:"center",
-    fontSize:38,
-    color: "#EFD4AD",
-    marginTop:5,
-  },
-  addImage: {
-    height: ScreenHeight * 0.25,
-    width: ScreenWidth * 0.7,
-    marginTop:15,
-    marginBottom:15,
-    resizeMode:"contain",
-  },
-  input: {
-    height: ScreenHeight * 0.08,
-    width: ScreenWidth * 0.7,
-    margin: 8,
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    backgroundColor:"#3B3B3B",
-    color:"#FFF",
-    fontSize:16,
-  },
-  inputDescription: {
-    width: ScreenWidth * 0.7,
-    margin: 8,
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    backgroundColor:"#3B3B3B",
-    color:"#FFF",
-    fontSize:16,
-  },
-  saveButtonContainer: {
-    marginTop:20,
-    width: ScreenWidth * 0.7,
-    justifyContent: "center",
-    alignItems: "flex-end",
-  },
-});
 
 export default ItemEditor;
 

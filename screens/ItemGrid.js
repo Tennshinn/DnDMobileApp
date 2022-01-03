@@ -2,8 +2,7 @@ import { View, Image, Text } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import styles from "../styles";
 import React, { Component } from 'react';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
- 
+
 class Item extends Component {
   constructor(props) {
     super(props);
