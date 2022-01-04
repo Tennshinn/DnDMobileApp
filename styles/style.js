@@ -177,4 +177,42 @@ export default style = StyleSheet.create({
         width: ScreenWidth * 0.7,
         alignItems: "flex-end",
       },
+
+      //Package editor styles
+      packageEditorWrapper: {
+        backgroundColor: "#000",
+        justifyContent: "flex-start",
+        alignItems: 'center',
+        height: ScreenHeight,
+      },
+      packageEditorTitle: {
+        textAlign:"center",
+        fontSize:38,
+        color: "#EFD4AD",
+        marginTop:5,
+      },
+      packageEditorAddImage: {
+        height: ScreenHeight * 0.25,
+        width: ScreenWidth * 0.7,
+        marginTop:15,
+        marginBottom:15,
+        resizeMode:"contain",
+      },
+      packageEditorInput: {
+        height: ScreenHeight * 0.08,
+        width: ScreenWidth * 0.7,
+        margin: 8,
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 10,
+        backgroundColor:"#3B3B3B",
+        color:"#CCC",
+        fontSize:16,
+      },
+      packageEditorSaveButtonContainer: {
+        marginTop:20,
+        width: ScreenWidth * 0.7,
+        justifyContent: "center",
+        alignItems: "flex-end",
+      },
   });

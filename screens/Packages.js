@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, Button, Alert } from "react-native";
 import style from "../styles/style";
 
-const Packages= () => {
+const Packages= ({navigation}) => {
 
   const messagePrototype = () => {
     Alert.alert(
@@ -12,6 +12,10 @@ const Packages= () => {
         { text: "Got it!"}
       ]
     );
+  }
+
+  const editPackage = () => {
+    navigation.navigate('PackageEditor');
   }
 
   return (
@@ -27,7 +31,7 @@ const Packages= () => {
           </View>
         </View>
       <View style={style.packagesSaveButton}>
-        <Button title={"Add New"} onPress={messagePrototype} color="#DCB66A" />
+        <Button title={"Add New"} onPress={editPackage} color="#DCB66A" />
       </View>
     </View>
   );

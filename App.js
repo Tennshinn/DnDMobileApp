@@ -7,6 +7,7 @@ import ItemEditor from './screens/ItemEditor';
 import CreateCharacter from './screens/CreateCharacter';
 import Characters from './screens/ItemGrid';
 import Packages from './screens/Packages';
+import PackageEditor from './screens/PackageEditor';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const MyStack = () => {
         <Stack.Screen name="CreateCharacter" component={CreateCharacter} />
         <Stack.Screen name="CharactersList" component={Characters} />
         <Stack.Screen name="Packages" component={Packages} />
+        <Stack.Screen name="PackageEditor" component={PackageEditor} />
       </Stack.Navigator>
     </NavigationContainer>
   );
