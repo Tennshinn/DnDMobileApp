@@ -77,7 +77,7 @@ class PanelNameEdit extends Component {
 
 export default function Inventory() {
     const initalItems = number(Array.from(
-      {length:9}, 
+      {length:25}, 
       ()=>new ItemData("Healing Potion "+(Math.random().toString()).substring(0, 5))));
   
     const [state, setState] = useState({
@@ -124,7 +124,7 @@ export default function Inventory() {
           { state.editing ? "<View" : ">Edit"}
           </Text>
       </Pressable>
-      <Grid items={state.items} onClick={itemClick} onDrop={dropItem.bind(null, setState)} >
+      <Grid items={state.items} onClick={itemClick} onDrop={dropItem.bind(null, setState)} draggable={state.editing} >
       <PanelNameEdit ref={panelNameEdit} onAccept={setTitle} />
 
       {SHOW_PANEL_ICONS &&

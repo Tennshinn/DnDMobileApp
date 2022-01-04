@@ -24,11 +24,18 @@ export default class GridItem extends Component {
   }
 
   updateDragged(state) {
+    function santize(v) {
+      if (isNaN(v) || v==null) {
+        return 0;
+      } else {
+        return v;
+      }
+    }
     this.callback(this.props.updateDragged, {
-      x:this.state.elementX+this.state.x || 0,
-      y:this.state.elementY+this.state.y || 0,
-      width:this.state.width,
-      height:this.state.height,
+      x:santize(this.state.elementX+this.state.x),
+      y:santize(this.state.elementY+this.state.y),
+      width:santize(this.state.width),
+      height:santize(this.state.height),
       visible:this.state.dragging,
       name:this.props.name,
       image:this.props.image,
@@ -63,7 +70,7 @@ export default class GridItem extends Component {
   dragMove  = (event) => {
     const x=event.nativeEvent.pageX-this.state.startXOffset;
     const y=event.nativeEvent.pageY-this.state.startYOffset;
-    const new_dragging= Math.sqrt(x*x+y*y)>DRAG_DELTA;
+    const new_dragging= this.props.draggable && Math.sqrt(x*x+y*y)>DRAG_DELTA;
     this.setStateWithDragged({
       ...this.state,
       x:x,
