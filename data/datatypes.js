@@ -32,7 +32,7 @@ export class Repository {
     }
 
     itemAvailable(item, character) {
-        const parser = math.parser();
+        const parser = mathjs.parser();
         for (const [key, value] of Object.entries(character)) {
             parser.evaluate(`${key}="${value}"`);
         }
