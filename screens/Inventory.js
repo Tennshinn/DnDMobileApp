@@ -78,14 +78,15 @@ export default function Inventory() {
     });
 
     function onDragEnd(index, x, y) {
+      setDragging(false);
       const panelWidth = Dimensions.get('window').width / state.panels.length;
       const panel = Math.round(x / panelWidth);
       const item = state.panels[state.selectedPanel].itemIds.find(e=>e && e.index==index);
-      console.log(item);
-      state.panels[state.selectedPanel].itemIds = state.panels[state.selectedPanel].itemIds.filter(e=>!e || e.index!=index);
-      state.panels[panel].itemIds.push(item);
-      setDragging(false);
-      return true;
+      if (item) {
+        state.panels[state.selectedPanel].itemIds = state.panels[state.selectedPanel].itemIds.filter(e=>!e || e.index!=index);
+        state.panels[panel].itemIds.push(item);
+        return true;
+      }
     }
 
     function setDragging(dragging) {
@@ -116,7 +117,8 @@ export default function Inventory() {
     
     return (
       <View style={styles.body}>
-      {state.itemView && <ItemDetails onPress={closeItemView} name={selectedItem().name} image={selectedItem().image} description={selectedItem().description} icons={selectedItem().icons}/>}
+      {state.itemView && <ItemDetails onPress={closeItemView} name={selectedItem().name} image={selectedItem().image} 
+                                      description={selectedItem().description} icons={selectedItem().icons}/>}
       
       <Pressable onPress={()=>panelNameEdit.current?.open(state.title)}>
         <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{state.title=="" ? "---" : state.title}</Text>
