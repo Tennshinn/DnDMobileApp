@@ -10,9 +10,9 @@ class CharacterClass {
 }
 
 function parsePackage(packageText, repository) {
-    const package = toml.parse(packageText);
+    const $package = toml.parse(packageText);
 
-    for (const [key, value] of Object.entries(package)) {
+    for (const [key, value] of Object.entries($package)) {
         if (value.type=="item") {
             repository.items.append(new ItemData(key, value.image. value.description, value.filter));
         } else if (value.type=="class") {

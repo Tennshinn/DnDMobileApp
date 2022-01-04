@@ -1,31 +1,13 @@
-import { View, FlatList, Text, Button, Modal, Pressable, TextInput } from 'react-native';
+import { View, FlatList, Text, Dimensions, Modal, Pressable, TextInput } from 'react-native';
 import ItemDetails from './ItemDetails';
 import styles from "../styles";
-import React, { useState, Component } from 'react';
+import React, { useState, Component, Dime } from 'react';
 import Grid from '../grid/Grid'; 
 import ItemData from '../data/ItemData'; 
+import { Panel } from '../data/datatypes'; 
 import {number, dropItem} from '../grid/helpers'; 
 
 import LinearGradient from 'react-native-linear-gradient';
-
-const DATA = [
-  {
-    id: "58694a0f-3da1-471f-bd96-14557asdsa11",
-    title: "All",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Healing",
-  },
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "Attack",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Tricks",
-  },
-];
 
 const Item = ({ item }) => (<View
   style={[styles.itemContainer, {marginHorizontal:8, width:70, height:132}]}
@@ -77,16 +59,38 @@ class PanelNameEdit extends Component {
 
 export default function Inventory() {
     const initalItems = number(Array.from(
-      {length:25}, 
+      {length:9}, 
       ()=>new ItemData("Healing Potion "+(Math.random().toString()).substring(0, 5))));
+
+    const initialPanels = number(Array.from(
+        {length:5}, 
+        ()=>new Panel("Healing", initalItems)));
   
     const [state, setState] = useState({
       items:initalItems,
+      panels:initialPanels,
+      selectedPanel:0,
       itemView:false,
       selectedItem:0,
       editing:true,
+      dragging:false,
       title:"Healing"
     });
+
+    function onDragEnd(index, x, y) {
+      const panelWidth = Dimensions.get('window').width / state.panels.length;
+      const panel = Math.round(x / panelWidth);
+      const item = state.panels[state.selectedPanel].itemIds.find(e=>e && e.index==index);
+      console.log(item);
+      state.panels[state.selectedPanel].itemIds = state.panels[state.selectedPanel].itemIds.filter(e=>!e || e.index!=index);
+      state.panels[panel].itemIds.push(item);
+      setDragging(false);
+      return true;
+    }
+
+    function setDragging(dragging) {
+      setState({...state, dragging:dragging});
+    }
   
     function closeItemView(){
       setState({...state, itemView:false});
@@ -108,8 +112,6 @@ export default function Inventory() {
       setState({...state, title:title});
     }
 
-    const SHOW_PANEL_ICONS = true;
-
     const panelNameEdit = React.createRef();
     
     return (
@@ -124,16 +126,17 @@ export default function Inventory() {
           { state.editing ? "<View" : ">Edit"}
           </Text>
       </Pressable>
-      <Grid items={state.items} onClick={itemClick} onDrop={dropItem.bind(null, setState)} draggable={state.editing} >
+      <Grid items={state.items} onClick={itemClick} onDrop={dropItem.bind(null, setState)} draggable={state.editing} onDragStart={_=>setDragging(true)}  
+        onDragEnd={onDragEnd} >
       <PanelNameEdit ref={panelNameEdit} onAccept={setTitle} />
 
-      {SHOW_PANEL_ICONS &&
+      {state.dragging &&
       <LinearGradient colors={['#00000000', '#000000', '#000000ff']} 
         style={{position:"absolute", bottom:28, width:"100%", height:250}}>
         <FlatList
         style={{position:"absolute", bottom:30}}
           contentContainerStyle={{alignItems: 'center', width:"100%", justifyContent: "center", display:"flex"}}
-          data={DATA}
+          data={state.panels.map(p=>({title:p.name, key:p.index}))}
           renderItem={({item})=>(<Item item={item} />)}
           horizontal={true}
           keyExtractor={(item) => item.id}

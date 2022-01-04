@@ -13,6 +13,8 @@ export default function Grid(props) {
                       onClick={props.onClick && (()=>props.onClick(index))}
                       onHold={props.onHold && (()=>props.onHold(index))}
                       onDrop={props.onDrop && ((target)=>props.onDrop(index, target))}
+                      onDragStart={props.onDragStart && (()=>props.onDragStart(index))}
+                      onDragEnd={props.onDragEnd && ((x, y)=>props.onDragEnd(index, x, y))}
                       updateDragged={(state)=>props.draggable && dragged.current && dragged.current.update(state)}
                       />;
   

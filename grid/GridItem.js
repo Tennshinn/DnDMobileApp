@@ -71,6 +71,9 @@ export default class GridItem extends Component {
     const x=event.nativeEvent.pageX-this.state.startXOffset;
     const y=event.nativeEvent.pageY-this.state.startYOffset;
     const new_dragging= this.props.draggable && Math.sqrt(x*x+y*y)>DRAG_DELTA;
+    if (!this.state.dragging && new_dragging) {
+      this.callback(this.props.onDragStart);
+    }
     this.setStateWithDragged({
       ...this.state,
       x:x,
@@ -80,7 +83,7 @@ export default class GridItem extends Component {
   }
 
   callback(f, ...args){
-    if(f) f(...args);
+    if(f) return f(...args);
   } 
 
   dragEnd  = (event) => {
@@ -99,9 +102,14 @@ export default class GridItem extends Component {
         this.callback(this.props.onClick);
         console.log("click "+this.props.index);
       }
-    } else if(index!=this.props.index) {
-      this.callback(this.props.onDrop, index);
-      console.log("drop "+this.props.index+" to "+index);
+    } else { 
+      const handled = this.callback(this.props.onDragEnd, event.nativeEvent.pageX, event.nativeEvent.pageY);
+      if(!handled) {
+        if(index!=this.props.index) {
+        this.callback(this.props.onDrop, index);
+        console.log("drop "+this.props.index+" to "+index);
+        }
+      }
     }
     this.setStateWithDragged({
       ...this.state,
