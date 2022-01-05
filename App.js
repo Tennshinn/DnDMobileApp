@@ -1,70 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const DnDApp= () => {
-  const [showText, setShowText] = useState(true);
+import HomeScreen from './screens/Home';
+import ItemEditor from './screens/ItemEditor';
+import CreateCharacter from './screens/CreateCharacter';
+import Characters from './screens/ItemGrid';
+import Packages from './screens/Packages';
+import PackageEditor from './screens/PackageEditor';
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowText((showText) => !showText);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+const Stack = createNativeStackNavigator();
 
+const MyStack = () => {
   return (
-    <View style={styles.container}>
-    <ImageBackground source={require('./img/HomeScreen.jpg')} resizeMode="cover" style={styles.image}>
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container2}>
-        <Text
-          style={[styles.textStyle, { display: showText ? 'none' : 'flex' }]}>
-          TAP SCREEN TO START
-        </Text>
-      </View>
-    </SafeAreaView>
-    </ImageBackground>
-  </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="ItemEditor" component={ItemEditor} />
+        <Stack.Screen name="CreateCharacter" component={CreateCharacter} />
+        <Stack.Screen name="CharactersList" component={Characters} />
+        <Stack.Screen name="Packages" component={Packages} />
+        <Stack.Screen name="PackageEditor" component={PackageEditor} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  image: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems:"center",
-  },
-  text: {
-    color: "white",
-    fontSize: 24,
-    lineHeight: 40,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  container2: {
-    justifyContent:"center",
-    alignItems:"center",
-    transform: [{ translateY: 300 }],
-    padding: 20,
-    height:80,
-    width:300,
-    backgroundColor: "#000000CC",
-    borderRadius:25,
-  },
-  titleText: {
-    fontSize: 22,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  textStyle: {
-    color: "white",
-    fontSize: 24,
-    lineHeight: 40,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-});
-
-export default DnDApp;
+export default MyStack;
