@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/Home';
 import ItemEditor from './screens/ItemEditor';
 import CreateCharacter from './screens/CreateCharacter';
-import Characters from './screens/ItemGrid';
+import Characters from './screens/Characters';
 import Packages from './screens/Packages';
 import PackageEditor from './screens/PackageEditor';
 
@@ -14,7 +14,7 @@ const Stack = createNativeStackNavigator();
 const MyStack = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="ItemEditor" component={ItemEditor} />
         <Stack.Screen name="CreateCharacter" component={CreateCharacter} />
