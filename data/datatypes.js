@@ -9,6 +9,19 @@ class CharacterClass {
     }
 }
 
+export class Inventory {
+    constructor(panels) {
+        this.panels=panels;
+    }
+}
+
+export class Panel {
+    constructor(name, itemIds) {
+        this.name=name;
+        this.itemIds=itemIds;
+    }
+}
+
 function parsePackage(packageText, repository) {
     const $package = toml.parse(packageText);
 
@@ -21,10 +34,29 @@ function parsePackage(packageText, repository) {
     }
 }
 
+export class Character {
+    constructor(name, characterClass, level, specialization, inventory=[]) {
+        this.name=name;
+        this.characterClass=characterClass;
+        this.level=level;
+        this.specialization=specialization;
+        this.inventory=[];
+    }
+}
+
 export class Repository {
-    cosntructor(){
+    constructor(){
+        this.characters = [];
         this.items = [];
         this.classes = [];
+        this.seed();
+    }
+
+    seed() {
+        this.characters = Array.from(
+            {length:7}, 
+            ()=>new Character("John "+(Math.random().toString()).substring(0, 5)));
+        console.log(this.characters );
     }
 
     itemsAvailable(character) {
@@ -46,27 +78,4 @@ export class Repository {
     } 
 }
 
-export class Character {
-    constructor(name, characterClass, level, specialization, repository, inventory=null) {
-        this.name=name;
-        this.characterClass=characterClass;
-        this.level=level;
-        this.specialization=specialization;
-        if (inventory==null){
-            inventory=new Inventory(new Panel("All", repository.itemsAvailable(this)));
-        }
-    }
-}
-
-export class Inventory {
-    constructor(panels) {
-        this.panels=panels;
-    }
-}
-
-export class Panel {
-    constructor(name, itemIds) {
-        this.name=name;
-        this.itemIds=itemIds;
-    }
-}
+export const REPOSITORY = new Repository();

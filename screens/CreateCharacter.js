@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SafeAreaView, Image, Text, View, TextInput, Button, Alert } from "react-native";
 
-const CreateCharacter= ({navigation}) => {
+const CreateCharacter= ({route, navigation}) => {
   const [textInputName, setTextInputName] = useState('');
   const [textInputClass, setTextInputClass] = useState('');
   const [textInputLevel, setTextInputLevel] = useState('');
@@ -61,7 +61,11 @@ const CreateCharacter= ({navigation}) => {
       ]
     );
 
-    navigation.navigate('ItemEditor');
+    const character = route.params.character;
+    for (const key of Object.keys(character)) {
+      character[key] = ""; // state[key]
+    }
+    navigation.goBack();
   }
 
   return (

@@ -8,6 +8,7 @@ import CreateCharacter from './screens/CreateCharacter';
 import Characters from './screens/Characters';
 import Packages from './screens/Packages';
 import PackageEditor from './screens/PackageEditor';
+import Inventory from './screens/Inventory';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ const MyStack = () => {
         <Stack.Screen name="CreateCharacter" component={CreateCharacter} />
         <Stack.Screen name="CharactersList" component={Characters} />
         <Stack.Screen name="Packages" component={Packages} />
+        <Stack.Screen name="Inventory" component={Inventory} />
         <Stack.Screen name="PackageEditor" component={PackageEditor} />
       </Stack.Navigator>
     </NavigationContainer>
