@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from './screens/Home';
 import ItemEditor from './screens/ItemEditor';
-import CreateCharacter from './screens/CreateCharacter';
+import CharacterEditor from './screens/CharacterEditor';
 import Characters from './screens/Characters';
 import Packages from './screens/Packages';
 import PackageEditor from './screens/PackageEditor';
@@ -18,7 +18,7 @@ const MyStack = () => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="ItemEditor" component={ItemEditor} />
-        <Stack.Screen name="CreateCharacter" component={CreateCharacter} />
+        <Stack.Screen name="CharacterEditor" component={CharacterEditor} />
         <Stack.Screen name="CharactersList" component={Characters} />
         <Stack.Screen name="Packages" component={Packages} />
         <Stack.Screen name="Inventory" component={Inventory} />

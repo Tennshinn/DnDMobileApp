@@ -2,7 +2,7 @@ import React, {useState, Component} from "react";
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SafeAreaView, Image, Text, View, TextInput, Button, Alert } from "react-native";
 
-class CreateCharacter extends Component {
+class CharacterEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +12,6 @@ class CreateCharacter extends Component {
       specialization:"",
     }
     this._unsubscribe = props.navigation.addListener('focus', () => {
-      console.log(this.props.route);
       const character = this.props.route?.params?.character;
       this.setState(state=>{
         if(character) {
@@ -118,4 +117,4 @@ class CreateCharacter extends Component {
   }
 };
 
-export default CreateCharacter;
+export default CharacterEditor;

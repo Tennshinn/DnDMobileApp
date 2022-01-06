@@ -103,7 +103,7 @@ const Characters = ({navigation}) => {
   return (<View style={styles.body}>
     <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>Characters</Text>
     <ItemGrid></ItemGrid>
-    <Text onPress={()=>navigation.navigate('CreateCharacter')} style={[styles.text, { fontSize: 17, marginBottom: 10, marginTop:10}]}>( Click to add new )</Text>
+    <Text onPress={()=>navigation.navigate('CharacterEditor')} style={[styles.text, { fontSize: 17, marginBottom: 10, marginTop:10}]}>( Click to add new )</Text>
     <Text style={[styles.text, { fontSize: 17, marginBottom: 10}]}>( Hold to edit )</Text>
   </View>);
 }

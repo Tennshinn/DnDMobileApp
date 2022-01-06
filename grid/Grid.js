@@ -7,14 +7,14 @@ import styles from "../styles";
 
 export default function Grid(props) {
   const dragged = React.createRef();
-  const renderItem = ({ item: { name, image, color, index } }) => 
-                      <GridItem name={name} image={image} index={index} color={color}
+  const renderItem = ({ item }) => 
+                      <GridItem name={item.name} image={item.getImage()} index={item.index} color={item.getColor()}
                       draggable={props.draggable}
-                      onClick={props.onClick && (()=>props.onClick(index))}
-                      onHold={props.onHold && (()=>props.onHold(index))}
-                      onDrop={props.onDrop && ((target)=>props.onDrop(index, target))}
-                      onDragStart={props.onDragStart && (()=>props.onDragStart(index))}
-                      onDragEnd={props.onDragEnd && ((x, y)=>props.onDragEnd(index, x, y))}
+                      onClick={props.onClick && (()=>props.onClick(item.index))}
+                      onHold={props.onHold && (()=>props.onHold(item.index))}
+                      onDrop={props.onDrop && ((target)=>props.onDrop(item.index, target))}
+                      onDragStart={props.onDragStart && (()=>props.onDragStart(item.index))}
+                      onDragEnd={props.onDragEnd && ((x, y)=>props.onDragEnd(item.index, x, y))}
                       updateDragged={(state)=>props.draggable && dragged.current && dragged.current.update(state)}
                       />;
   
@@ -27,7 +27,7 @@ export default function Grid(props) {
       />
       {props.children}
       <ElevatedGridItem ref={dragged}
-        name={props.items[0].name} image={props.items[0].image} index={props.items[0].index}
+        name={props.items[0].name}
       ></ElevatedGridItem>
     </View>
   );

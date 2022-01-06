@@ -15,7 +15,8 @@ export default class ElevatedGridItem extends Component {
         height:100,
         visible:false,
         name:"",
-        image:require('../img/fire-bowl.png')
+        image:require('../img/fire-bowl.png'),
+        color:""
       }
     }
   

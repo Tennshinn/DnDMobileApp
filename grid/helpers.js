@@ -1,8 +1,8 @@
 export function number(arr){
-  return arr.map((item, index)=>({...item, index:index}));
+  return arr.map((item, index)=>{item.index=index; return item});
 }
 
-function moveArrayItem(array, from, to) {
+export function moveArrayItem(array, from, to) {
   if(to>=array.length){
     return array;
   }

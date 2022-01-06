@@ -1,11 +1,13 @@
 import toml from "toml";
 import mathjs from "mathjs";
 import ItemData from "./ItemData";
+import Character from "./Character";
 
 class CharacterClass {
-    constructor(name, specializations) {
+    constructor(name, specializations, image) {
         this.name=name;
         this.specializations=specializations;
+        this.image = image;
     }
 }
 
@@ -29,18 +31,8 @@ function parsePackage(packageText, repository) {
         if (value.type=="item") {
             repository.items.append(new ItemData(key, value.image. value.description, value.filter));
         } else if (value.type=="class") {
-            repository.classes.append(new CharacterClass(key, value.specializations));
+            repository.classes.append(new CharacterClass(key, value.specializations, value.image));
         }
-    }
-}
-
-export class Character {
-    constructor(name, characterClass, level, specialization, inventory=[]) {
-        this.name=name;
-        this.characterClass=characterClass;
-        this.level=level;
-        this.specialization=specialization;
-        this.inventory=[];
     }
 }
 
@@ -53,9 +45,10 @@ export class Repository {
     }
 
     seed() {
+        this.classes = [new CharacterClass("Wizard", [], require('../img/fire-bowl.png'))];
         this.characters = Array.from(
             {length:7}, 
-            ()=>new Character("John "+(Math.random().toString()).substring(0, 5)));
+            ()=>new Character("John "+(Math.random().toString()).substring(2, 4), "Wizard", "", "", "", this));
     }
 
     itemsAvailable(character) {

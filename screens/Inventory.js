@@ -138,8 +138,8 @@ export default function Inventory() {
         <FlatList
         style={{position:"absolute", bottom:30}}
           contentContainerStyle={{alignItems: 'center', width:"100%", justifyContent: "center", display:"flex"}}
-          data={number(state.panels).map(p=>({title:p.name, key:p.index}))}
-          renderItem={({item})=>(<Item item={item} />)}
+          data={number(state.panels).map(p=>({title:p.name}))}
+          renderItem={({item})=>(<Item item={item} key={item.index} />)}
           horizontal={true}
           keyExtractor={(item) => item.id}
         />
