@@ -17,8 +17,8 @@ const Home= ({navigation}) => {
     <ImageBackground source={require('../img/HomeScreen.jpg')} resizeMode="cover" style={style.homeScreenImage}>
     <SafeAreaView style={{ flex: 1 }}>
       <View style={style.homeScreenTextContainerOpenApp}>
-        <TouchableOpacity onPress={()=>navigation.navigate('CharactersList')} style={[style.homeScreenTitle, { display: showText ? 'none' : 'flex' }]}>
-          <Text style={[style.homeScreenTitle]}>TAP TO OPEN</Text>
+        <TouchableOpacity onPress={()=>navigation.navigate('CharactersList')} style={[style.homeScreenTitle]}>
+          <Text style={[style.homeScreenTitle, { opacity: showText ? 0.1 : 1 }]}>TAP TO OPEN</Text>
         </TouchableOpacity>
       </View>
 

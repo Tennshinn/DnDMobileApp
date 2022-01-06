@@ -56,7 +56,6 @@ export class Repository {
         this.characters = Array.from(
             {length:7}, 
             ()=>new Character("John "+(Math.random().toString()).substring(0, 5)));
-        console.log(this.characters );
     }
 
     itemsAvailable(character) {
