@@ -57,7 +57,7 @@ class PanelNameEdit extends Component {
 }
 }
 
-export default function Inventory() {
+export default function Inventory({navigation}) {
     const initalItems = number(Array.from(
       {length:9}, 
       ()=>new ItemData("Healing Potion "+(Math.random().toString()).substring(0, 5))));
@@ -70,8 +70,6 @@ export default function Inventory() {
       items:initalItems,
       panels:initialPanels,
       selectedPanel:0,
-      itemView:false,
-      selectedItem:0,
       editing:true,
       dragging:false,
       title:"Healing"
@@ -79,6 +77,7 @@ export default function Inventory() {
 
     function onDragEnd(index, x, y) {
       setDragging(false);
+      /*
       const panelWidth = Dimensions.get('window').width / state.panels.length;
       const panel = Math.round(x / panelWidth);
       const item = state.panels[state.selectedPanel].itemIds.find(e=>e && e.index==index);
@@ -87,28 +86,28 @@ export default function Inventory() {
         state.panels[panel].itemIds.push(item);
         return true;
       }
+      */
     }
 
     function setDragging(dragging) {
       setState({...state, dragging:dragging});
     }
   
-    function closeItemView(){
-      setState({...state, itemView:false});
-    }
-  
     function itemClick(index){
-      setState({...state, selectedItem:index, itemView:true});
+      const item=state.items[index];
+      navigation.navigate("ItemDetails", {
+        name:item.name,
+        image:item.getImage(),
+        description:item.description,
+        icons:item.icons,
+        color:item.getColor()
+      });
     }
 
     function switchEditing(){
       setState({...state, editing:!state.editing});
     }
-  
-    function selectedItem(){
-      return state.items[state.selectedItem];
-    }
-
+    
     function setTitle(title) {
       setState({...state, title:title});
     }
@@ -117,9 +116,6 @@ export default function Inventory() {
     
     return (
       <View style={styles.body}>
-      {state.itemView && <ItemDetails onPress={closeItemView} name={selectedItem().name} image={selectedItem().image} 
-                                      description={selectedItem().description} icons={selectedItem().icons}/>}
-      
       <Pressable onPress={()=>panelNameEdit.current?.open(state.title)}>
         <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{state.title=="" ? "---" : state.title}</Text>
       </Pressable>

@@ -3,7 +3,7 @@ export function number(arr){
 }
 
 export function moveArrayItem(array, from, to) {
-  if(to>=array.length){
+  if(to>=array.length || from>0){
     return array;
   }
   const newItems=[...array];
