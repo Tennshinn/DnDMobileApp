@@ -1,6 +1,7 @@
 import React, {useState, Component} from "react";
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SafeAreaView, Image, Text, View, TextInput, Button, Alert } from "react-native";
+import RectangularButton from "../shared/RectangularButton";
 
 class CharacterEditor extends Component {
   constructor(props) {
@@ -108,7 +109,7 @@ class CharacterEditor extends Component {
       />
 
       <View style={style.characterEditorSaveButtonContainer}>
-        <Button title={"Save"} onPress={this.onSubmit.bind(this)} color="#DCB66A" />
+        <RectangularButton title={"Save"} onPress={this.onSubmit.bind(this)} style={{paddingHorizontal:15, paddingVertical:10, marginRight:-10}} />
       </View>
     </SafeAreaView>
       

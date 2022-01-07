@@ -1,5 +1,7 @@
 import { StyleSheet, Dimensions} from "react-native";
 
+const PRIMARY = "#efd3ad";
+
 const ScreenHeight = Dimensions.get("window").height;
 const ScreenWidth = Dimensions.get("window").width;
 
@@ -36,7 +38,7 @@ export default style = StyleSheet.create({
         borderRadius:25,
       },
       homeScreenTitle: {
-        color: "#FBC403",
+        color: PRIMARY,
         fontSize: 24,
         lineHeight: 40,
         fontWeight: "bold",
@@ -145,6 +147,7 @@ export default style = StyleSheet.create({
         fontSize:38,
         color: "#EFD4AD",
         marginTop:25,
+        marginBottom:15,
       },
       packagesRow: {
         width:ScreenWidth * 0.8,
@@ -153,31 +156,79 @@ export default style = StyleSheet.create({
         paddingBottom:10,
         paddingLeft:5,
         paddingRight:5,
-        borderRadius:15,
+        borderRadius:10,
+        marginBottom:10,
+      },
+      packagesAddNewContainer:{
+        flexDirection:"row",
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+        width:ScreenWidth * 0.8,
+        padding:3,
+        position:"absolute", 
+        bottom:40,
+        right:20
       },
       packagesRowHeader:{
+        marginLeft:10,
         fontSize:20,
         color: "#EFD4AD",
         marginBottom:5,
       },
       packagesRowLink:{
+        marginLeft:10,
         fontSize:16,
         color: "#EFD4AD",
       },
-      packagesButtonInsideRow: {
+      packagesButton: {
+        marginRight:10,
         marginTop:20,
-        marginRight:20,
-        width: ScreenWidth * 0.7,
         justifyContent: "flex-end",
         alignItems: "flex-end",
         flexDirection:"row",
+        borderRadius:3,
+        padding:5,
+        backgroundColor:PRIMARY
+      },
+      packagesAddButton:{
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection:"row",
+        borderRadius:80,
+        width:80,
+        height:80,
+        backgroundColor:PRIMARY,
+        
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 10,
+        },
+        shadowOpacity: 0.9,
+        shadowRadius: 13.97,
+
+        elevation: 21,
+      },
+      packagesButtonsRow:{
+        flexDirection:"row",
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+      },
+      packagesButtonText:{
+        color:"black",
+        fontWeight: "bold"
+      },
+      packagesAddButtonText:{
+        color:"black",
+        fontSize:20,
+        textAlign:"center",
+        fontWeight: "bold"
       },
       packagesSaveButton: {
         marginTop:20,
         width: ScreenWidth * 0.7,
         alignItems: "flex-end",
       },
-
       //Package editor styles
       packageEditorWrapper: {
         backgroundColor: "#000",

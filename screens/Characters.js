@@ -45,7 +45,7 @@ const Characters = (props) => {
   function itemHold(index){
     setIndex(index);
     props.navigation.navigate('CharacterEditor', {
-      character:{...characters[index]}
+      character:{...characters[index], repository:null}
     });
   }
 
@@ -54,7 +54,7 @@ const Characters = (props) => {
     if (index==REPOSITORY.characters.length){
       const character = new Character();
       props.navigation.navigate('CharacterEditor', {
-        character : {...character}
+        character : {...character, repository:null}
       });
     } else {
       props.navigation.navigate('Inventory');

@@ -36,11 +36,19 @@ function parsePackage(packageText, repository) {
     }
 }
 
+export class Package {
+    constructor(name="", link=""){
+        this.name = name;
+        this.link = link;
+    }
+}
+
 export class Repository {
     constructor(){
         this.characters = [];
         this.items = [];
         this.classes = [];
+        this.packages = [];
         this.seed();
     }
 
@@ -49,6 +57,9 @@ export class Repository {
         this.characters = Array.from(
             {length:7}, 
             ()=>new Character("John "+(Math.random().toString()).substring(2, 4), "Wizard", "", "", "", this));
+        this.packages = Array.from(
+            {length:4}, 
+            ()=>new Package("Package "+(Math.random().toString()).substring(2, 4), "https://pastebin.com/raw/example"));
     }
 
     itemsAvailable(character) {
