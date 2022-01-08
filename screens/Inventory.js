@@ -57,6 +57,65 @@ class PanelNameEdit extends Component {
 }
 }
 
+function HorizontalDraggingWrapper({children, dragBorder, onMoved, draggable}) {
+
+  const [offsetX, setOffsetX] = useState(0);
+  const [startX, setStartX] = useState(0);
+  const [x, setX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const view = React.createRef();
+
+  const dragAmount = ()=>x-startX;
+
+  function dragStart(event){
+    setDragging(true);
+    setStartX(event.nativeEvent.pageX);
+    setX(event.nativeEvent.pageX);
+  }
+  function dragMove(event){
+    setX(event.nativeEvent.pageX);
+  }
+  function dragEnd(){
+    if (Math.abs(dragAmount())>=dragBorder && onMoved){
+      onMoved(Math.sign(dragAmount()));
+    }
+    setDragging(false);
+    setStartX(0);
+    setX(0);
+  }
+  function onLayout() {
+    if(!dragging)
+      view.current.measure( (fx, fy, width, height, pageX, pageY) => {
+        if(!dragging)
+          setOffsetX(pageX);
+      });
+  }
+  
+  return <View
+      ref={view}
+      style={{
+        position:'absolute',
+        opacity:1-Math.abs(dragAmount())/dragBorder,
+        height: "100%",
+        transform: [
+          {translateX:(offsetX??0)+dragAmount() },
+          {scale:1-Math.abs(dragAmount())/dragBorder/20 }
+        ]
+      }}
+      onResponderStart={dragStart}
+      onResponderMove={dragMove}
+      onResponderRelease={dragEnd}
+      onStartShouldSetResponderCapture={
+        (evt) => draggable
+      }
+      onStartShouldSetResponder={() => draggable}
+      onResponderTerminationRequest={() => true}
+      onResponderTerminate={() => true}
+      onLayout={onLayout} >
+        {children}
+      </View>  
+}
+
 export default function Inventory({navigation}) {
     const initalItems = number(Array.from(
       {length:9}, 
@@ -64,7 +123,7 @@ export default function Inventory({navigation}) {
 
     const initialPanels = number(Array.from(
         {length:5}, 
-        ()=>new Panel("Healing", initalItems)));
+        ()=>new Panel("Healing "+(Math.random().toString()).substring(2, 4), initalItems)));
   
     const [state, setState] = useState({
       items:initalItems,
@@ -116,13 +175,24 @@ export default function Inventory({navigation}) {
     
     return (
       <View style={styles.body}>
-      <Pressable onPress={()=>panelNameEdit.current?.open(state.title)}>
-        <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{state.title=="" ? "---" : state.title}</Text>
-      </Pressable>
+        <View style={{elevation:100, zIndex:100,}}>
       <Pressable onPress={switchEditing} >
-        <Text style={[styles.text, { fontSize: 25, position:"absolute", bottom:0, right:20, opacity: (state.editing ? 0.5 : 1), transform:[{rotateZ:"7deg"}]}]}>
+        <Text style={[styles.text, { fontSize: 25, elevation:100, zIndex:100,
+          position:"absolute", right:15, top:15, opacity: (state.editing ? 0.5 : 1), transform:[{rotateZ:"7deg"}]}]}>
           { state.editing ? "<View" : ">Edit"}
           </Text>
+      </Pressable>
+      </View>
+      <HorizontalDraggingWrapper 
+        draggable={!state.editing}
+        dragBorder={120}
+        onMoved={(direction)=>{
+          const newPanel = Math.min(Math.max(state.selectedPanel+direction, 0), state.panels.length-1);
+          setState({...state, selectedPanel:newPanel});
+        }}
+      >
+      <Pressable onPress={()=>panelNameEdit.current?.open(state.title)}>
+        <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{state.panels[state.selectedPanel].name || "---"}</Text>
       </Pressable>
       <Grid items={state.items} onClick={itemClick} onDrop={dropItem.bind(null, setState)} draggable={state.editing} onDragStart={_=>setDragging(true)}  
         onDragEnd={onDragEnd} >
@@ -141,6 +211,7 @@ export default function Inventory({navigation}) {
         />
       </LinearGradient>}
       </Grid>
+      </HorizontalDraggingWrapper>
       
     </View>);
   }
