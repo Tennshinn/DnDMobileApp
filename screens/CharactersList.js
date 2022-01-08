@@ -9,7 +9,7 @@ import {REPOSITORY} from '../data/datatypes';
 
 const SHOW_ADDED_CHARACTER = true;
 
-const Characters = (props) => {
+const CharactersList = (props) => {
 
   const [characters, setCharacters] = useState(REPOSITORY.characters);
   const [index, setIndex] = useState(0);
@@ -75,4 +75,4 @@ const Characters = (props) => {
       </View>);
 }
 
-export default Characters;
+export default CharactersList;

@@ -194,11 +194,10 @@ export default style = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         flexDirection:"row",
-        borderRadius:80,
-        width:80,
-        height:80,
+        borderRadius:75,
+        width:75,
+        height:75,
         backgroundColor:PRIMARY,
-        
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -206,7 +205,6 @@ export default style = StyleSheet.create({
         },
         shadowOpacity: 0.9,
         shadowRadius: 13.97,
-
         elevation: 21,
       },
       packagesButtonsRow:{

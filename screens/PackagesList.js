@@ -6,7 +6,7 @@ import {number} from '../grid/helpers';
 import RectangularButton from "../shared/RectangularButton";
 import LinearGradient from 'react-native-linear-gradient';
 
-const Packages= ({navigation, route}) => {
+const PackagesList= ({navigation, route}) => {
   const [packages, setPackages] = useState(REPOSITORY.packages);
   const [index, setIndex] = useState(0);
 
@@ -75,5 +75,5 @@ const Packages= ({navigation, route}) => {
   );
 };
 
-export default Packages;
+export default PackagesList;
 

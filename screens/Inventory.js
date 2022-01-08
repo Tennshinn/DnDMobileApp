@@ -108,7 +108,7 @@ function HorizontalDraggingWrapper({children, dragBorder, onMoved, draggable, dr
       onResponderMove={dragMove}
       onResponderRelease={dragEnd}
       onStartShouldSetResponderCapture={
-        (evt) => draggable
+        (evt) => false
       }
       onStartShouldSetResponder={() => draggable}
       onResponderTerminationRequest={() => true}
