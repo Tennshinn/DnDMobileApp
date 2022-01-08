@@ -57,7 +57,7 @@ class PanelNameEdit extends Component {
 }
 }
 
-function HorizontalDraggingWrapper({children, dragBorder, onMoved, draggable}) {
+function HorizontalDraggingWrapper({children, dragBorder, onMoved, draggable, dragAllowed}) {
 
   const [offsetX, setOffsetX] = useState(0);
   const [startX, setStartX] = useState(0);
@@ -73,7 +73,9 @@ function HorizontalDraggingWrapper({children, dragBorder, onMoved, draggable}) {
     setX(event.nativeEvent.pageX);
   }
   function dragMove(event){
-    setX(event.nativeEvent.pageX);
+    if(!dragAllowed || dragAllowed(Math.sign(event.nativeEvent.pageX-startX))) {
+      setX(event.nativeEvent.pageX);
+    }
   }
   function dragEnd(){
     if (Math.abs(dragAmount())>=dragBorder && onMoved){
@@ -171,6 +173,10 @@ export default function Inventory({navigation}) {
       setState({...state, title:title});
     }
 
+    function panelExists(panel) {
+      return panel>=0 && panel<state.panels.length;
+    }
+
     const panelNameEdit = React.createRef();
     
     return (
@@ -187,9 +193,12 @@ export default function Inventory({navigation}) {
         draggable={!state.editing}
         dragBorder={120}
         onMoved={(direction)=>{
-          const newPanel = Math.min(Math.max(state.selectedPanel+direction, 0), state.panels.length-1);
-          setState({...state, selectedPanel:newPanel});
+          const newPanel = state.selectedPanel+direction;
+          if(panelExists(newPanel)) {
+            setState({...state, selectedPanel:newPanel});
+          }
         }}
+        dragAllowed={direction=>panelExists(state.selectedPanel+direction)}
       >
       <Pressable onPress={()=>panelNameEdit.current?.open(state.title)}>
         <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{state.panels[state.selectedPanel].name || "---"}</Text>
