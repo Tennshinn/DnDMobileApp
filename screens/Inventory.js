@@ -9,11 +9,14 @@ import {number, dropItem} from '../grid/helpers';
 
 import LinearGradient from 'react-native-linear-gradient';
 
-const Item = ({ item }) => (<View
-  style={[styles.itemContainer, {marginHorizontal:8, width:70, height:132}]}
->
-    <Text style={[styles.text, { fontSize: 14 }]} >{item.title}</Text></View>
-);
+const PanelItem = ({ item, viewRef }) =>{
+  return (<View
+    style={[styles.itemContainer, {marginHorizontal:8, width:70, height:132}]}
+    ref={viewRef}
+  >
+      <Text style={[styles.text, { fontSize: 14 }]} >{item.title}</Text></View>
+  );
+} 
 
 class PanelNameEdit extends Component {
   constructor(props) {
@@ -118,7 +121,10 @@ function HorizontalDraggingWrapper({children, dragBorder, onMoved, draggable, dr
       </View>  
 }
 
-export default function Inventory({navigation}) {
+export default class Inventory extends Component {
+  constructor(props) {
+    super(props);
+
     const initalItems = number(Array.from(
       {length:9}, 
       ()=>new ItemData("Healing Potion "+(Math.random().toString()).substring(0, 5))));
@@ -127,17 +133,44 @@ export default function Inventory({navigation}) {
         {length:5}, 
         ()=>new Panel("Healing "+(Math.random().toString()).substring(2, 4), initalItems)));
   
-    const [state, setState] = useState({
+    this.state = {
       items:initalItems,
       panels:initialPanels,
       selectedPanel:0,
       editing:true,
       dragging:false,
       title:"Healing"
-    });
+    };
 
-    function onDragEnd(index, x, y) {
-      setDragging(false);
+
+    this.panelRefs = this.state.panels.map(p=>React.createRef());
+    this.itemRefs = this.state.items.map(i=>React.createRef());
+    this.panelNameEdit = React.createRef();
+  }
+
+    onDragEnd(index, x, y) {
+      this.setDragging(false);
+
+      console.log(this.panelRefs);
+      this.panelRefs.map((p, i)=>p.current?.measure( (fx, fy, width, height, pageX, pageY) => {
+        if (
+          x>=pageX && x<=pageX+width
+          && 
+          y>=pageY && y<=pageY+height
+        ) {
+          console.log("drop on panel", i);
+        }
+      }));
+      this.itemRefs.map((p, i)=>p.current?.measure( (fx, fy, width, height, pageX, pageY) => {
+        if (
+          x>=pageX && x<=pageX+width
+          && 
+          y>=pageY && y<=pageY+height
+        ) {
+          console.log("drop on item", i);
+        }
+      }));
+
       /*
       const panelWidth = Dimensions.get('window').width / state.panels.length;
       const panel = Math.round(x / panelWidth);
@@ -150,13 +183,13 @@ export default function Inventory({navigation}) {
       */
     }
 
-    function setDragging(dragging) {
-      setState({...state, dragging:dragging});
+    setDragging(dragging) {
+      this.setState({...this.state, dragging:dragging});
     }
   
-    function itemClick(index){
-      const item=state.items[index];
-      navigation.navigate("ItemDetails", {
+    itemClick(index){
+      const item=this.state.items[index];
+      this.props.navigation.navigate("ItemDetails", {
         name:item.name,
         image:item.getImage(),
         description:item.description,
@@ -165,56 +198,57 @@ export default function Inventory({navigation}) {
       });
     }
 
-    function switchEditing(){
-      setState({...state, editing:!state.editing});
+    switchEditing(){
+      this.setState({...this.state, editing:!this.state.editing});
     }
     
-    function setTitle(title) {
-      setState({...state, title:title});
+    setTitle(title) {
+      this.setState({...this.state, title:title});
     }
 
-    function panelExists(panel) {
-      return panel>=0 && panel<state.panels.length;
+    panelExists(panel) {
+      return panel>=0 && panel<this.state.panels.length;
     }
 
-    const panelNameEdit = React.createRef();
+    render(){
     
     return (
       <View style={styles.body}>
         <View style={{elevation:100, zIndex:100,}}>
-      <Pressable onPress={switchEditing} >
+      <Pressable onPress={this.switchEditing.bind(this)} >
         <Text style={[styles.text, { fontSize: 25, elevation:100, zIndex:100,
-          position:"absolute", right:15, top:15, opacity: (state.editing ? 0.5 : 1), transform:[{rotateZ:"7deg"}]}]}>
-          { state.editing ? "<View" : ">Edit"}
+          position:"absolute", right:15, top:15, opacity: (this.state.editing ? 0.5 : 1), transform:[{rotateZ:"7deg"}]}]}>
+          { this.state.editing ? "<View" : ">Edit"}
           </Text>
       </Pressable>
       </View>
       <HorizontalDraggingWrapper 
-        draggable={!state.editing}
+        draggable={!this.state.editing}
         dragBorder={120}
         onMoved={(direction)=>{
-          const newPanel = state.selectedPanel+direction;
-          if(panelExists(newPanel)) {
-            setState({...state, selectedPanel:newPanel});
+          const newPanel = this.state.selectedPanel+direction;
+          if(this.panelExists(newPanel)) {
+            this.setState({...this.state, selectedPanel:newPanel});
           }
         }}
-        dragAllowed={direction=>panelExists(state.selectedPanel+direction)}
+        dragAllowed={direction=>this.panelExists(this.state.selectedPanel+direction)}
       >
-      <Pressable onPress={()=>panelNameEdit.current?.open(state.title)}>
-        <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{state.panels[state.selectedPanel].name || "---"}</Text>
+      <Pressable onPress={()=>panelNameEdit.current?.open(this.state.title)}>
+        <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{this.state.panels[this.state.selectedPanel].name || "---"}</Text>
       </Pressable>
-      <Grid items={state.items} onClick={itemClick} onDrop={dropItem.bind(null, setState)} draggable={state.editing} onDragStart={_=>setDragging(true)}  
-        onDragEnd={onDragEnd} >
-      <PanelNameEdit ref={panelNameEdit} onAccept={setTitle} />
+      <Grid items={this.state.items} onClick={this.itemClick.bind(this)} viewRef={index=>this.itemRefs[index]}
+       draggable={this.state.editing} onDragStart={_=>this.setDragging(true)}  
+        onDragEnd={this.onDragEnd.bind(this)} >
+      <PanelNameEdit ref={this.panelNameEdit} onAccept={this.setTitle.bind(this)} />
 
-      {state.dragging &&
+      {this.state.dragging &&
       <LinearGradient colors={['#00000000', '#000000', '#000000ff']} 
         style={{position:"absolute", bottom:28, width:"100%", height:250}}>
         <FlatList
         style={{position:"absolute", bottom:30}}
           contentContainerStyle={{alignItems: 'center', width:"100%", justifyContent: "center", display:"flex"}}
-          data={number(state.panels).map(p=>({title:p.name}))}
-          renderItem={({item})=>(<Item item={item} key={item.index} />)}
+          data={number(this.state.panels.map(p=>({title:p.name})))}
+          renderItem={({item})=>(<PanelItem item={item} viewRef={this.panelRefs[item.index]} key={item.index} />)}
           horizontal={true}
           keyExtractor={(item) => item.id}
         />
@@ -223,4 +257,5 @@ export default function Inventory({navigation}) {
       </HorizontalDraggingWrapper>
       
     </View>);
+    }
   }

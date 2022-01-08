@@ -16,6 +16,7 @@ export default function Grid(props) {
                       onDragStart={props.onDragStart && (()=>props.onDragStart(item.index))}
                       onDragEnd={props.onDragEnd && ((x, y)=>props.onDragEnd(item.index, x, y))}
                       updateDragged={(state)=>props.draggable && dragged.current && dragged.current.update(state)}
+                      viewRef={props.viewRef && props.viewRef(item.index)} 
                       />;
   
   return (

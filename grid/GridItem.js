@@ -21,6 +21,7 @@ export default class GridItem extends Component {
       dragging:false,
       holdingStartTime:0
     }
+    this.viewRef = this.props.viewRef ?? React.createRef();
   }
 
   updateDragged(state) {
@@ -124,7 +125,7 @@ export default class GridItem extends Component {
   onLayout = (event) =>  {
     if(!this.state.dragging){
       // save size and position relative to the page
-      this.view.measure( (fx, fy, width, height, pageX, pageY) => {
+      this.viewRef.current.measure( (fx, fy, width, height, pageX, pageY) => {
         this.setStateWithDragged({
           ...this.state,
           width:width,
@@ -142,7 +143,7 @@ export default class GridItem extends Component {
         // hide this element and display ElevatedGridItem isntead
         display:this.state.dragging ? "none" : "flex"
       }}
-      ref={view => { this.view = view; }}
+      ref={this.viewRef}
       
       onResponderStart={this.dragStart}
       onResponderMove={this.dragMove}
