@@ -1,12 +1,12 @@
 import { View, FlatList, Text, Dimensions, Modal, Pressable, TextInput } from 'react-native';
-import ItemDetails from './ItemDetails';
 import styles from "../styles";
-import React, { useState, Component, Dime } from 'react';
+import React, { Component } from 'react';
 import Grid from '../grid/Grid';
 import ItemData from '../data/ItemData';
 import { Panel } from '../data/datatypes';
 import { number, moveArrayItem } from '../grid/helpers';
-
+import PanelNameEdit from './inventory/PanelNameEdit';
+import HorizontalDraggingWrapper from './inventory/HorizontalDraggingWrapper';
 import LinearGradient from 'react-native-linear-gradient';
 
 const PanelItem = ({ item, viewRef }) => {
@@ -16,118 +16,6 @@ const PanelItem = ({ item, viewRef }) => {
   >
     <Text style={[styles.text, { fontSize: 14 }]} >{item.title}</Text></View>
   );
-}
-
-class PanelNameEdit extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      text: ""
-    };
-  }
-  open(text) {
-    this.setState({ open: true, text: text });
-
-  }
-  close() {
-    this.props.onAccept(this.state.text);
-    this.setState({ open: false });
-  }
-  render() {
-    return <Modal
-      animationType="slide"
-      transparent={true}
-      visible={this.state.open}
-      onRequestClose={() => this.close()}>
-      <View style={[styles.body, {
-        margin: 45, top: 140,
-        padding: 35, height: 200
-      }]}>
-        <View >
-          <Text style={[styles.text, { textAlign: "left", fontSize: 25, marginBottom: 15, marginLeft: 2, opacity: 0.8 }]}>Set panel name</Text>
-          <TextInput
-            style={[styles.text, { textAlign: "left", fontSize: 30, marginBottom: 10 }]}
-            placeholder="Panel Name"
-            placeholderTextColor="#CCC"
-            value={this.state.text}
-            onChangeText={text => this.setState({ ...this.state, text: text })}
-          />
-          <Pressable onPress={() => this.close()}>
-            <Text style={[styles.text, { textAlign: "right" }]}>OK</Text>
-          </Pressable>
-        </View>
-      </View>
-    </Modal>
-  }
-}
-
-function HorizontalDraggingWrapper({ children, dragBorder, onMoved, draggable, dragAllowed }) {
-
-  const [offsetX, setOffsetX] = useState(0);
-  const [startX, setStartX] = useState(0);
-  const [x, setX] = useState(0);
-  const [dragging, setDragging] = useState(false);
-  const view = React.createRef();
-
-  const dragAmount = () => x - startX;
-
-  function dragStart(event) {
-    setDragging(true);
-    setStartX(event.nativeEvent.pageX);
-    setX(event.nativeEvent.pageX);
-  }
-  function dragMove(event) {
-    if (!dragAllowed || dragAllowed(-Math.sign(event.nativeEvent.pageX - startX))) {
-      setX(event.nativeEvent.pageX);
-    }
-  }
-  function dragEnd() {
-    if (Math.abs(dragAmount()) >= dragBorder && onMoved) {
-      onMoved(-Math.sign(dragAmount()));
-    }
-    setDragging(false);
-    setStartX(0);
-    setX(0);
-  }
-  function onLayout() {
-    if (!dragging)
-      view.current.measure((fx, fy, width, height, pageX, pageY) => {
-        if (!dragging)
-          setOffsetX(pageX);
-      });
-  }
-
-  return <View
-    ref={view}
-    style={{
-      position: 'absolute',
-      opacity: 1 - Math.abs(dragAmount()) / dragBorder,
-      height: "100%",
-      transform: [
-        { translateX: dragAmount() },
-        { scale: 1 - Math.abs(dragAmount()) / dragBorder / 20 }
-      ]
-    }}
-    onLayout={onLayout} >
-    {children}
-    <View style={{ position: "absolute", bottom: -20, width: "100%", height: 220 }}
-      onResponderStart={dragStart}
-      onResponderMove={dragMove}
-      onResponderRelease={dragEnd}
-      onStartShouldSetResponderCapture={
-        (evt) => false
-      }
-      onStartShouldSetResponder={() => draggable}
-      onResponderTerminationRequest={() => true}
-      onResponderTerminate={() => true}
-    >
-      <LinearGradient colors={['#00000000', '#00000055', '#000000ff']}
-        style={{ width: "100%", height: "100%" }}
-      >
-      </LinearGradient>
-    </View>
-  </View>
 }
 
 export default class Inventory extends Component {
