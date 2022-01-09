@@ -175,7 +175,6 @@ export default class Inventory extends Component {
     let item = null;
     const finish = () => {
       count++;
-      console.log(count, this.panelRefs.length, this.itemRefs.length)
       if (count == this.panelRefs.length + this.itemRefs.length) {
         if (panel != null && panel != this.state.selectedPanel) {
           if (this.state.selectedPanel != 0) {
@@ -220,8 +219,6 @@ export default class Inventory extends Component {
         finish();
       }));
     }
-    console.log("this.panelRefs", this.panelRefs);
-    console.log("this.itemRefs", this.itemRefs);
     inBounds(this.panelRefs, index => panel = index);
     inBounds(this.itemRefs, index => item = index);
   }

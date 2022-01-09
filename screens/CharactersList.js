@@ -37,7 +37,6 @@ const CharactersList = (props) => {
         // append a new character
         setCharacters([...characters, character]);
       }
-      console.log(character);
       REPOSITORY.characters = characters;
     }
   }, [props.route.params?.character]);
