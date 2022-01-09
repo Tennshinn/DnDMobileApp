@@ -109,17 +109,24 @@ function HorizontalDraggingWrapper({ children, dragBorder, onMoved, draggable, d
         { scale: 1 - Math.abs(dragAmount()) / dragBorder / 20 }
       ]
     }}
-    onResponderStart={dragStart}
-    onResponderMove={dragMove}
-    onResponderRelease={dragEnd}
-    onStartShouldSetResponderCapture={
-      (evt) => false
-    }
-    onStartShouldSetResponder={() => draggable}
-    onResponderTerminationRequest={() => true}
-    onResponderTerminate={() => true}
     onLayout={onLayout} >
     {children}
+    <View style={{ position: "absolute", bottom: -20, width: "100%", height: 220 }}
+      onResponderStart={dragStart}
+      onResponderMove={dragMove}
+      onResponderRelease={dragEnd}
+      onStartShouldSetResponderCapture={
+        (evt) => false
+      }
+      onStartShouldSetResponder={() => draggable}
+      onResponderTerminationRequest={() => true}
+      onResponderTerminate={() => true}
+    >
+      <LinearGradient colors={['#00000000', '#00000055', '#000000ff']}
+        style={{ width: "100%", height: "100%" }}
+      >
+      </LinearGradient>
+    </View>
   </View>
 }
 
@@ -128,7 +135,7 @@ export default class Inventory extends Component {
     super(props);
 
     const initalItems = number(Array.from(
-      { length: 9 },
+      { length: 15 },
       () => new ItemData("Healing Potion " + (Math.random().toString()).substring(0, 5))));
 
     const initialPanels = number(Array.from(
@@ -143,14 +150,17 @@ export default class Inventory extends Component {
     };
 
     this.panelRefs = this.state.panels.map(p => React.createRef());
+    this.itemRefs = [];
     this.updateItemsRefs(this.getSelectedPanel().itemIds.length);
     this.panelNameEdit = React.createRef();
   }
 
   updateItemsRefs(count) {
-    this.itemRefs = Array.from(
+    const newItemRefs = Array.from(
       { length: count },
-      () => React.createRef());
+      (v, k) => k < this.itemRefs.length ? this.itemRefs[k] : React.createRef());
+
+    this.itemRefs = newItemRefs;
   }
 
   getSelectedPanel() {
@@ -167,10 +177,10 @@ export default class Inventory extends Component {
       count++;
       console.log(count, this.panelRefs.length, this.itemRefs.length)
       if (count == this.panelRefs.length + this.itemRefs.length) {
-        if (panel != null && panel!=this.state.selectedPanel) {
+        if (panel != null && panel != this.state.selectedPanel) {
           if (this.state.selectedPanel != 0) {
             // update refs before removing item from the panel
-            this.updateItemsRefs(this.getSelectedPanel().itemIds.length-1);
+            this.updateItemsRefs(this.getSelectedPanel().itemIds.length - 1);
           }
           this.setState(state => ({
             ...state,
@@ -212,8 +222,8 @@ export default class Inventory extends Component {
     }
     console.log("this.panelRefs", this.panelRefs);
     console.log("this.itemRefs", this.itemRefs);
-    inBounds(this.panelRefs, index=>panel=index);
-    inBounds(this.itemRefs, index=>item=index);
+    inBounds(this.panelRefs, index => panel = index);
+    inBounds(this.itemRefs, index => item = index);
   }
 
   setDragging(dragging) {
@@ -251,7 +261,6 @@ export default class Inventory extends Component {
   }
 
   render() {
-
     return (
       <View style={styles.body}>
         <View style={{ elevation: 100, zIndex: 100, }}>
@@ -265,7 +274,7 @@ export default class Inventory extends Component {
           </Pressable>
         </View>
         <HorizontalDraggingWrapper
-          draggable={!this.state.editing}
+          draggable={true}
           dragBorder={120}
           onMoved={(direction) => {
             const newPanel = this.state.selectedPanel + direction;
@@ -284,11 +293,9 @@ export default class Inventory extends Component {
             viewRef={index => this.itemRefs[index]}
             draggable={this.state.editing} onDragStart={_ => this.setDragging(true)}
             onDragEnd={this.onDragEnd.bind(this)} >
-            <PanelNameEdit ref={this.panelNameEdit} onAccept={this.setTitle.bind(this)} />
-
             {this.state.dragging &&
               <LinearGradient colors={['#00000000', '#000000', '#000000ff']}
-                style={{ position: "absolute", bottom: 28, width: "100%", height: 250 }}>
+                style={{ position: "absolute", bottom: 30, width: "100%", height: 250 }}>
                 <FlatList
                   style={{ position: "absolute", bottom: 30 }}
                   contentContainerStyle={{ alignItems: 'center', width: "100%", justifyContent: "center", display: "flex" }}
@@ -300,7 +307,7 @@ export default class Inventory extends Component {
               </LinearGradient>}
           </Grid>
         </HorizontalDraggingWrapper>
-
+        <PanelNameEdit ref={this.panelNameEdit} onAccept={this.setTitle.bind(this)} />
       </View>);
   }
 }

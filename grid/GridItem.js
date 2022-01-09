@@ -141,7 +141,8 @@ export default class GridItem extends Component {
     return (<View
       style={{
         // hide this element and display ElevatedGridItem isntead
-        display:this.state.dragging ? "none" : "flex"
+        display:this.state.dragging ? "none" : "flex",
+        marginBottom: this.props.lastRow ? 150 : 0
       }}
       ref={this.viewRef}
       

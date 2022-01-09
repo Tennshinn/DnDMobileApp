@@ -11,7 +11,7 @@ export default styles = StyleSheet.create({
     },
     gridView: {
       marginTop: 10,
-      flex: 1,
+      flex: 1
     },
     itemContainer: {
       borderRadius: 5,
