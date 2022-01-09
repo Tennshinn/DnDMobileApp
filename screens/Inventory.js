@@ -143,8 +143,14 @@ export default class Inventory extends Component {
     };
 
     this.panelRefs = this.state.panels.map(p => React.createRef());
-    this.itemRefs = this.getSelectedPanel().itemIds.map(i => React.createRef());
+    this.updateItemsRefs(this.getSelectedPanel().itemIds.length);
     this.panelNameEdit = React.createRef();
+  }
+
+  updateItemsRefs(count) {
+    this.itemRefs = Array.from(
+      { length: count },
+      () => React.createRef());
   }
 
   getSelectedPanel() {
@@ -159,9 +165,13 @@ export default class Inventory extends Component {
     let item = null;
     const finish = () => {
       count++;
+      console.log(count, this.panelRefs.length, this.itemRefs.length)
       if (count == this.panelRefs.length + this.itemRefs.length) {
-        if (panel != null) {
-          console.log("move to panel", index, panel);
+        if (panel != null && panel!=this.state.selectedPanel) {
+          if (this.state.selectedPanel != 0) {
+            // update refs before removing item from the panel
+            this.updateItemsRefs(this.getSelectedPanel().itemIds.length-1);
+          }
           this.setState(state => ({
             ...state,
             panels: state.panels.map((panelObject, panelIndex) =>
@@ -174,6 +184,7 @@ export default class Inventory extends Component {
                   : panelObject)
             )
           }));
+          console.log("move to panel", index, panel);
         } else if (item != null) {
           this.setState(state => ({
             ...state,
@@ -187,26 +198,22 @@ export default class Inventory extends Component {
         }
       }
     }
-    this.panelRefs.map((p, i) => p.current?.measure((fx, fy, width, height, pageX, pageY) => {
-      if (
-        x >= pageX && x <= pageX + width
-        &&
-        y >= pageY && y <= pageY + height
-      ) {
-        panel = i;
-      }
-      finish();
-    }));
-    this.itemRefs.map((p, i) => p.current?.measure((fx, fy, width, height, pageX, pageY) => {
-      if (
-        x >= pageX && x <= pageX + width
-        &&
-        y >= pageY && y <= pageY + height
-      ) {
-        item = i;
-      }
-      finish();
-    }));
+    const inBounds = (refList, callback) => {
+      refList.map((p, i) => p.current?.measure((fx, fy, width, height, pageX, pageY) => {
+        if (
+          x >= pageX && x <= pageX + width
+          &&
+          y >= pageY && y <= pageY + height
+        ) {
+          callback(i);
+        }
+        finish();
+      }));
+    }
+    console.log("this.panelRefs", this.panelRefs);
+    console.log("this.itemRefs", this.itemRefs);
+    inBounds(this.panelRefs, index=>panel=index);
+    inBounds(this.itemRefs, index=>item=index);
   }
 
   setDragging(dragging) {
@@ -263,6 +270,7 @@ export default class Inventory extends Component {
           onMoved={(direction) => {
             const newPanel = this.state.selectedPanel + direction;
             if (this.panelExists(newPanel)) {
+              this.updateItemsRefs(this.state.panels[newPanel].itemIds.length);
               this.setState({ ...this.state, selectedPanel: newPanel });
             }
           }}
