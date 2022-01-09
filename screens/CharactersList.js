@@ -20,8 +20,6 @@ const CharactersList = (props) => {
     const data = props.route.params?.character;
     if(data) {
       const character = new Character();
-      character.repository = REPOSITORY;
-      console.log(character.repository);
       if(index<REPOSITORY.characters.length) {
         // copy variables from previosu version of the object 
         for (const key of Object.keys(characters[index])) {
@@ -31,6 +29,8 @@ const CharactersList = (props) => {
       for (const key of Object.keys(data)) {
         character[key] = data[key];
       }
+      character.repository = REPOSITORY;
+      
       if(index<REPOSITORY.characters.length) {
         setCharacters(characters.map((c, i)=>i==index ? character : c ));
       } else {
@@ -45,7 +45,9 @@ const CharactersList = (props) => {
   function itemHold(index){
     setIndex(index);
     props.navigation.navigate('CharacterEditor', {
-      character:{...characters[index], repository:null}
+       // set repository to null to avoid cyclical reference warning
+      character:{...characters[index], repository:null},
+      characterClasses : REPOSITORY.classes
     });
   }
 
@@ -54,7 +56,8 @@ const CharactersList = (props) => {
     if (index==REPOSITORY.characters.length){
       const character = new Character();
       props.navigation.navigate('CharacterEditor', {
-        character : {...character, repository:null}
+        character : {...character, repository:null},
+        characterClasses : REPOSITORY.classes
       });
     } else {
       props.navigation.navigate('Inventory');

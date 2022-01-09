@@ -6,7 +6,7 @@ const ScreenHeight = Dimensions.get("window").height;
 const ScreenWidth = Dimensions.get("window").width;
 
 export default style = StyleSheet.create({
-
+      
       //Home screen styles
       homeScreenWrapper: {
         flex: 1,

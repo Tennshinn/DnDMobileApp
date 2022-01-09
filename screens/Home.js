@@ -14,7 +14,7 @@ const Home= ({navigation}) => {
       </View>
 
       <View style={style.homeScreenTextContainerUploadPackage}>
-        <TouchableOpacity onPress={()=>navigation.navigate('Packages')} style={[style.homeScreenTitle]}>
+        <TouchableOpacity onPress={()=>navigation.navigate('PackagesList')} style={[style.homeScreenTitle]}>
           <Text style={[style.homeScreenTitle]}>UPLOAD PACKAGE</Text>
         </TouchableOpacity>
       </View>

@@ -53,7 +53,17 @@ export class Repository {
     }
 
     seed() {
-        this.classes = [new CharacterClass("Wizard", [], require('../img/fire-bowl.png'))];
+        this.classes = [
+            new CharacterClass("Wizard", 
+            ["Abjurer", "Conjurer", "Diviner", "Enchanter", "Evoker", "Illusionist", "Necromancer", "Transmuter"], 
+            require('../img/fire-bowl.png')),
+            new CharacterClass("Paladin", 
+            ["Oath of the Ancients", "Oath of Devotion:", "Oath of Vengeance"], 
+            require('../img/fire-bowl.png')),
+            new CharacterClass("Rougue", 
+            [], 
+            require('../img/fire-bowl.png'))
+        ];
         this.characters = Array.from(
             {length:7}, 
             ()=>new Character("John "+(Math.random().toString()).substring(2, 4), "Wizard", "", "", "", this));

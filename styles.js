@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 
-const PRIMARY = "#efd3ad";
-const BACKGROUND = "#010101";
-const PANEL = "#121212";
+export const PRIMARY = "#efd3ad";
+export const BACKGROUND = "#010101";
+export const PANEL = "#121212";
 
 export default styles = StyleSheet.create({
     body: {
