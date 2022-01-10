@@ -44,6 +44,7 @@ export default function HorizontalDraggingWrapper({ children, dragBorder, onMove
         position: 'absolute',
         opacity: 1 - Math.abs(dragAmount()) / dragBorder,
         height: "100%",
+        width: "100%",
         transform: [
           { translateX: dragAmount() },
           { scale: 1 - Math.abs(dragAmount()) / dragBorder / 20 }

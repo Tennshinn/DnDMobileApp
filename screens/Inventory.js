@@ -9,6 +9,7 @@ import PanelNameEdit from './inventory/PanelNameEdit';
 import HorizontalDraggingWrapper from './inventory/HorizontalDraggingWrapper';
 import CircleButton from "../shared/CircleButton";
 import LinearGradient from 'react-native-linear-gradient';
+import {REPOSITORY} from '../data/Repository';
 
 const PanelItem = ({ item, viewRef }) => {
   return (<View
@@ -42,6 +43,24 @@ export default class Inventory extends Component {
     this.itemRefs = [];
     this.updateItemsRefs(this.getSelectedPanel().itemIds.length);
     this.panelNameEdit = React.createRef();
+
+    this._unsubscribe = props.navigation.addListener('focus', () => {
+      const panels = number(Array.from(
+        { length: 5 },
+        (v, k) => 
+        k==0 ?
+        new Panel("All", REPOSITORY.items)
+        : new Panel("Panel "+k, [])
+        ));
+        this.setState(state=>({
+          ...state,
+          panels:panels
+        }));
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   updateItemsRefs(count) {
@@ -120,7 +139,7 @@ export default class Inventory extends Component {
     const item = this.getSelectedPanel().itemIds[index];
     this.props.navigation.navigate("ItemDetails", {
       name: item.name,
-      image: item.getImage(),
+      image: item.image,
       description: item.description,
       icons: item.icons,
       color: item.getColor()
@@ -164,7 +183,7 @@ export default class Inventory extends Component {
           <Pressable onPress={() => this.panelNameEdit.current?.open(this.getSelectedPanel().name)}>
             <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{this.getSelectedPanel().name || "---"}</Text>
           </Pressable>
-          <Grid items={number(this.state.panels[this.state.selectedPanel].itemIds)}
+          <Grid items={number(this.state.panels[this.state.selectedPanel].itemIds.map(REPOSITORY.itemGridItem.bind(REPOSITORY)))}
             onClick={this.itemClick.bind(this)}
             viewRef={index => this.itemRefs[index]}
             draggable={this.state.editing} onDragStart={_ => this.setDragging(true)}

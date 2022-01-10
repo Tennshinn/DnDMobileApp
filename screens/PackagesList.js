@@ -26,7 +26,7 @@ const PackagesList= ({navigation, route}) => {
         // append a new character
         setPackages([...packages, $package]);
       }
-      REPOSITORY.packages = packages;
+      REPOSITORY.addPackage($package);
     }
   }, [route.params?.package]);
 

@@ -21,20 +21,21 @@ function parseDice(text) {
 }
 
 export default class ItemData {
-  constructor(name, image, description, icons, filter) {
+  constructor(name, image, description, icons, filter, source="") {
     this.name = name ?? "Health Potion";
     this.image = image ?? require('../img/fire-bowl.png');
     this.description = description ?? `${Math.random()} Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates dolorem molestiae necessitatibus quod. Veniam facere nobis recusandae repudiandae iste voluptas minima aut repellendus nihil quis exercitationem quas, inventore iusto. Minima?`;
     this.icons = icons ?? parseDice("4d20    2d10");
     this.filter = filter ?? ""; 
-  }
-
-  getImage(){
-    return this.image;
+    this.source = source ?? ""; 
   }
 
   getColor(){
     const toHash = [this.name, this.description];
     return colorFromHash(hashStringArray(toHash));    
+  }
+
+  getKey() {
+    return this.source+"/"+this.name;
   }
 }

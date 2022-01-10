@@ -30,7 +30,6 @@ const CharactersList = (props) => {
       for (const key of Object.keys(data)) {
         character[key] = data[key];
       }
-      character.repository = REPOSITORY;
       
       if(index<REPOSITORY.characters.length) {
         setCharacters(characters.map((c, i)=>i==index ? character : c ));
@@ -45,8 +44,7 @@ const CharactersList = (props) => {
   function itemHold(index){
     setIndex(index);
     props.navigation.navigate('CharacterEditor', {
-       // set repository to null to avoid cyclical reference warning
-      character:{...characters[index], repository:null},
+      character:{...characters[index]},
       characterClasses : REPOSITORY.classes
     });
   }
@@ -60,7 +58,7 @@ const CharactersList = (props) => {
     setIndex(characters.length);
     const character = new Character();
     props.navigation.navigate('CharacterEditor', {
-      character : {...character, repository:null},
+      character : {...character},
       characterClasses : REPOSITORY.classes
     });
   }
@@ -72,7 +70,7 @@ const CharactersList = (props) => {
 
   return (<View style={styles.body}>
       <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>Characters</Text>
-      <Grid items={number(characters)} 
+      <Grid items={number(characters.map(REPOSITORY.characterGridItem.bind(REPOSITORY)))} 
             draggable={true} onDrop={onDrop}
             onHold={itemHold} onClick={itemClick}></Grid>
       <Text style={[styles.text, { fontSize: 17, textAlign:"center", width:"100%", bottom: 15, position:"absolute" }]}>( Hold to edit )</Text>

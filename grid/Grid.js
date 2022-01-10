@@ -8,7 +8,7 @@ import styles from "../styles";
 export default function Grid(props) {
   const dragged = React.createRef();
   const renderItem = ({ item }) => 
-                      <GridItem name={item.name} image={item.getImage()} index={item.index} color={item.getColor()}
+                      <GridItem name={item.name} image={item.image} index={item.index} color={item.color}
                       draggable={props.draggable}
                       onClick={props.onClick && (()=>props.onClick(item.index))}
                       onHold={props.onHold && (()=>props.onHold(item.index))}
@@ -29,7 +29,7 @@ export default function Grid(props) {
       />
       {props.children}
       <ElevatedGridItem ref={dragged}
-        name={props.items[0].name}
+        name={props.items[0]?.name}
       ></ElevatedGridItem>
     </View>
   );
