@@ -1,0 +1,9 @@
+find img/icons -type f -name "*.png" > out
+
+replace:
+.+
+["$0"] : require("../$0"),
+
+replace:
+\["img/icons/items/
+["
