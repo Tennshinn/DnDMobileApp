@@ -16,19 +16,6 @@ class CharacterClass {
     }
 }
 
-export class Inventory {
-    constructor(panels) {
-        this.panels=panels;
-    }
-}
-
-export class Panel {
-    constructor(name, itemIds) {
-        this.name=name;
-        this.itemIds=itemIds;
-    }
-}
-
 export class Package {
     constructor(name="", link=""){
         this.name = name;
@@ -108,7 +95,7 @@ export class Repository {
     }
 
     getImageForCharacter(character) {
-        return (this.classes?.find(c => c.name == character.characterClass)?.image) ?? "";
+        return (character && this.classes?.find(c => c.name == character.characterClass)?.image) ?? "";
     }
 
     characterGridItem(character) {

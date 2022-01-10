@@ -3,13 +3,13 @@ import styles from "../styles";
 import React, { Component } from 'react';
 import Grid from '../grid/Grid';
 import ItemData from '../data/ItemData';
-import { Panel } from '../data/Repository';
+import { REPOSITORY } from '../data/Repository';
+import Panel from '../data/Panel';
 import { number, moveArrayItem } from '../grid/helpers';
 import PanelNameEdit from './inventory/PanelNameEdit';
 import HorizontalDraggingWrapper from './inventory/HorizontalDraggingWrapper';
 import CircleButton from "../shared/CircleButton";
 import LinearGradient from 'react-native-linear-gradient';
-import {REPOSITORY} from '../data/Repository';
 
 const PanelItem = ({ item, viewRef }) => {
   return (<View
@@ -45,17 +45,25 @@ export default class Inventory extends Component {
     this.panelNameEdit = React.createRef();
 
     this._unsubscribe = props.navigation.addListener('focus', () => {
-      const panels = number(Array.from(
-        { length: 5 },
-        (v, k) => 
-        k==0 ?
-        new Panel("All", REPOSITORY.items)
-        : new Panel("Panel "+k, [])
-        ));
-        this.setState(state=>({
-          ...state,
-          panels:panels
-        }));
+      const characterIndex = this.props.route?.params?.characterIndex;
+      if (!characterIndex) {
+        return;
+      }
+      const character = REPOSITORY.characters[characterIndex];
+      if (!character) {
+        return;
+      }
+      console.log("fetching character panels")
+      const panels=[
+        new Panel("All", REPOSITORY.itemsAvailable(character)),
+        ...character.inventory
+      ];
+      this.character = character;
+
+      this.setState(state=>({
+        ...state,
+        panels:panels
+      }));
     });
   }
 
@@ -81,6 +89,14 @@ export default class Inventory extends Component {
     let count = 0;
     let panel = null;
     let item = null;
+    const updateCharacterPanels = (panels) => {
+      if (this.character) {
+        // skip the first "All" panel
+        console.log("updating character panels");
+        this.character.inventory = panels.filter((p, i) => i>0);
+      }
+      return panels;
+    }
     const finish = () => {
       count++;
       if (count == this.panelRefs.length + this.itemRefs.length) {
@@ -91,7 +107,7 @@ export default class Inventory extends Component {
           }
           this.setState(state => ({
             ...state,
-            panels: state.panels.map((panelObject, panelIndex) =>
+            panels: updateCharacterPanels(state.panels.map((panelObject, panelIndex) =>
               // remove item from the current panel
               (panelIndex == state.selectedPanel && state.selectedPanel != 0)
                 ? new Panel(panelObject.name, panelObject.itemIds.filter(e => !e || e.index != index))
@@ -99,17 +115,17 @@ export default class Inventory extends Component {
                 : (panelIndex == panel
                   ? new Panel(panelObject.name, [...panelObject.itemIds, this.getSelectedPanel().itemIds[index]])
                   : panelObject)
-            )
+            ))
           }));
           console.log("move to panel", index, panel);
         } else if (item != null) {
           this.setState(state => ({
             ...state,
-            panels: state.panels.map((panelObject, panelIndex) =>
+            panels: updateCharacterPanels(state.panels.map((panelObject, panelIndex) =>
               panelIndex == state.selectedPanel
                 ? new Panel(panelObject.name, number(moveArrayItem(panelObject.itemIds, index, item)))
                 : panelObject
-            )
+            ))
           }));
           console.log("move to item position", index, item);
         }
@@ -183,7 +199,7 @@ export default class Inventory extends Component {
           <Pressable onPress={() => this.panelNameEdit.current?.open(this.getSelectedPanel().name)}>
             <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{this.getSelectedPanel().name || "---"}</Text>
           </Pressable>
-          <Grid items={number(this.state.panels[this.state.selectedPanel].itemIds.map(REPOSITORY.itemGridItem.bind(REPOSITORY)))}
+          <Grid items={number(this.getSelectedPanel().itemIds.map(REPOSITORY.itemGridItem.bind(REPOSITORY)))}
             onClick={this.itemClick.bind(this)}
             viewRef={index => this.itemRefs[index]}
             draggable={this.state.editing} onDragStart={_ => this.setDragging(true)}

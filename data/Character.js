@@ -1,4 +1,5 @@
 import { hashStringArray, colorFromHash } from './helpers';
+import Panel from './Panel';
 
 export default class Character {
     constructor(name = "", characterClass = "", level = "", specialization = "") {
@@ -6,7 +7,7 @@ export default class Character {
         this.characterClass = characterClass;
         this.level = level;
         this.specialization = specialization;
-        this.inventory = [];
+        this.inventory = ["Tricks", "Attack", "Defense", "Healing"].map(e=>new Panel(e, []));
     }
 
     getColor() {

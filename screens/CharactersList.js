@@ -5,7 +5,7 @@ import Grid from '../grid/Grid';
 import ItemData from '../data/ItemData'; 
 import Character from '../data/Character'; 
 import {number, moveArrayItem} from '../grid/helpers'; 
-import {REPOSITORY} from '../data/Repository';
+import { REPOSITORY } from '../data/Repository';
 import CircleButton from "../shared/CircleButton";
 
 const SHOW_ADDED_CHARACTER = true;
@@ -51,7 +51,7 @@ const CharactersList = (props) => {
 
   function itemClick(index){
     setIndex(index);
-    props.navigation.navigate('Inventory');
+    props.navigation.navigate('Inventory', {characterIndex:index});
   }
 
   function newCharacter() {
