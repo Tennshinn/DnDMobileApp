@@ -64,7 +64,7 @@ export default class PackageEditor extends Component {
       ]
     );
 
-    this.props.navigation.navigate("Packages", {package:this.state});
+    this.props.navigation.navigate("PackagesList", {package:this.state});
   }
 
   render() {

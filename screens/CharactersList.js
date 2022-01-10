@@ -5,7 +5,8 @@ import Grid from '../grid/Grid';
 import ItemData from '../data/ItemData'; 
 import Character from '../data/Character'; 
 import {number, moveArrayItem} from '../grid/helpers'; 
-import {REPOSITORY} from '../data/datatypes';
+import {REPOSITORY} from '../data/Repository';
+import CircleButton from "../shared/CircleButton";
 
 const SHOW_ADDED_CHARACTER = true;
 
@@ -52,15 +53,16 @@ const CharactersList = (props) => {
 
   function itemClick(index){
     setIndex(index);
-    if (index==REPOSITORY.characters.length){
-      const character = new Character();
-      props.navigation.navigate('CharacterEditor', {
-        character : {...character, repository:null},
-        characterClasses : REPOSITORY.classes
-      });
-    } else {
-      props.navigation.navigate('Inventory');
-    }
+    props.navigation.navigate('Inventory');
+  }
+
+  function newCharacter() {
+    setIndex(characters.length);
+    const character = new Character();
+    props.navigation.navigate('CharacterEditor', {
+      character : {...character, repository:null},
+      characterClasses : REPOSITORY.classes
+    });
   }
 
   function onDrop(from, to) {
@@ -70,10 +72,11 @@ const CharactersList = (props) => {
 
   return (<View style={styles.body}>
       <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>Characters</Text>
-      <Grid items={number([...characters, addItem])} 
+      <Grid items={number(characters)} 
             draggable={true} onDrop={onDrop}
             onHold={itemHold} onClick={itemClick}></Grid>
-      <Text style={[styles.text, { fontSize: 17, marginBottom: 10 }]}>( Hold to edit )</Text>
+      <Text style={[styles.text, { fontSize: 17, textAlign:"center", width:"100%", bottom: 15, position:"absolute" }]}>( Hold to edit )</Text>
+      <CircleButton visible={characters.length<9} title="ADD" onPress={newCharacter}></CircleButton>
       </View>);
 }
 

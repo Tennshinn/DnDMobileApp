@@ -3,10 +3,11 @@ import styles from "../styles";
 import React, { Component } from 'react';
 import Grid from '../grid/Grid';
 import ItemData from '../data/ItemData';
-import { Panel } from '../data/datatypes';
+import { Panel } from '../data/Repository';
 import { number, moveArrayItem } from '../grid/helpers';
 import PanelNameEdit from './inventory/PanelNameEdit';
 import HorizontalDraggingWrapper from './inventory/HorizontalDraggingWrapper';
+import CircleButton from "../shared/CircleButton";
 import LinearGradient from 'react-native-linear-gradient';
 
 const PanelItem = ({ item, viewRef }) => {
@@ -148,16 +149,6 @@ export default class Inventory extends Component {
   render() {
     return (
       <View style={styles.body}>
-        <View style={{ elevation: 100, zIndex: 100, }}>
-          <Pressable onPress={this.switchEditing.bind(this)} >
-            <Text style={[styles.text, {
-              fontSize: 25, elevation: 100, zIndex: 100,
-              position: "absolute", right: 15, top: 15, opacity: (this.state.editing ? 0.5 : 1), transform: [{ rotateZ: "7deg" }]
-            }]}>
-              {this.state.editing ? "<View" : ">Edit"}
-            </Text>
-          </Pressable>
-        </View>
         <HorizontalDraggingWrapper
           draggable={true}
           dragBorder={120}
@@ -193,6 +184,7 @@ export default class Inventory extends Component {
           </Grid>
         </HorizontalDraggingWrapper>
         <PanelNameEdit ref={this.panelNameEdit} onAccept={this.setTitle.bind(this)} />
+        <CircleButton visible={!this.state.dragging} title={this.state.editing ? "View" : "Edit"} onPress={this.switchEditing.bind(this)}></CircleButton>
       </View>);
   }
 }

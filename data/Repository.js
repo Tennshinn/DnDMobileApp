@@ -77,17 +77,23 @@ export class Repository {
     }
 
     itemAvailable(item, character) {
-        const parser = mathjs.parser();
-        for (const [key, value] of Object.entries(character)) {
-            parser.evaluate(`${key}="${value}"`);
-        }
-        for (const [key, value] of Object.entries(this.classes)) {
-            parser.evaluate(`${key}="${key}"`);
-            for (const specialization of value.specializations) {
-                parser.evaluate(`${specialization}="${specialization}"`);
+        try {
+            const parser = mathjs.parser();
+            for (const [key, value] of Object.entries(character)) {
+                parser.evaluate(`${key}="${value}"`);
             }
+            for (const [key, value] of Object.entries(this.classes)) {
+                parser.evaluate(`${key}="${key}"`);
+                for (const specialization of value.specializations) {
+                    parser.evaluate(`${specialization}="${specialization}"`);
+                }
+            }
+            return parser.evaluate(item.filter);
+        } catch(e) {
+            console.log("Error while checking if item is available:");
+            console.log(e);
+            return false;
         }
-        return parser.evaluate(item.filter);
     } 
 }
 

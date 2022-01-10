@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Text, View, Button, Alert, TouchableOpacity, FlatList } from "react-native";
 import style from "../styles/style";
-import {REPOSITORY, Package} from '../data/datatypes';
+import {REPOSITORY, Package} from '../data/Repository';
 import {number} from '../grid/helpers'; 
 import RectangularButton from "../shared/RectangularButton";
+import CircleButton from "../shared/CircleButton";
 import LinearGradient from 'react-native-linear-gradient';
 
 const PackagesList= ({navigation, route}) => {
@@ -59,17 +60,7 @@ const PackagesList= ({navigation, route}) => {
         <LinearGradient colors={['#00000000', '#000000b0', '#000000bb']}
         style={{position:"absolute", bottom:28, width:"100%", height:140}}
         >
-        <View style={[style.packagesAddNewContainer]}>
-            <View style={[style.packagesAddButton, {backgroundColor:"black"}]}>
-          <TouchableOpacity activeOpacity={0.8} onPress={()=>editPackage(packages.length)}>
-            <View style={style.packagesAddButton}>
-              <Text style={style.packagesAddButtonText}>
-                NEW
-              </Text>
-            </View>
-          </TouchableOpacity>
-            </View>
-        </View>
+        <CircleButton visible={true} title="NEW" onPress={() => editPackage(packages.length)}></CircleButton>
         </LinearGradient>
     </View>
   );

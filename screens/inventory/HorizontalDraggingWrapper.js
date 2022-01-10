@@ -60,7 +60,7 @@ export default function HorizontalDraggingWrapper({ children, dragBorder, onMove
         }
         onStartShouldSetResponder={() => draggable}
         onResponderTerminationRequest={() => true}
-        onResponderTerminate={() => true}
+        onResponderTerminate={dragEnd}
       >
         <LinearGradient colors={['#00000000', '#00000055', '#000000ff']}
           style={{ width: "100%", height: "100%" }}
