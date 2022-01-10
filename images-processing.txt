@@ -1,9 +1,13 @@
-find img/icons -type f -name "*.png" > out
+find img/icons -type f -name "*.png" > data/images.js
 
 replace:
 .+
 ["$0"] : require("../$0"),
 
 replace:
-\["img/icons/items/
+\["img/icons/
 ["
+
+// generated using images-processing.txt
+
+export default IAMGES = {

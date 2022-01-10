@@ -18,6 +18,7 @@ export default function Grid(props) {
                       updateDragged={(state)=>props.draggable && dragged.current && dragged.current.update(state)}
                       viewRef={props.viewRef && props.viewRef(item.index)} 
                       lastRow={Math.floor(item.index/3)==Math.floor((props.items.length-1)/3)}
+                      key={item.index} 
                       />;
   
   return (

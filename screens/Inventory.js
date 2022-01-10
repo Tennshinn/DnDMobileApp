@@ -153,12 +153,13 @@ export default class Inventory extends Component {
 
   itemClick(index) {
     const item = this.getSelectedPanel().itemIds[index];
+    const itemGridItem = REPOSITORY.itemGridItem(item);
     this.props.navigation.navigate("ItemDetails", {
       name: item.name,
-      image: item.image,
+      image: itemGridItem.image,
       description: item.description,
       icons: item.icons,
-      color: item.getColor()
+      color: itemGridItem.color
     });
   }
 

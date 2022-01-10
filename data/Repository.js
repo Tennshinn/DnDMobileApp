@@ -2,6 +2,7 @@ import toml from "toml";
 import mathjs from "mathjs";
 import ItemData from "./ItemData";
 import Character from "./Character";
+import IMAGES from "./images";
 
 class CharacterClass {
     constructor(name, specializations, image, source) {
@@ -37,6 +38,7 @@ export class Repository {
         this.items = [];
         this.classes = [];
         this.packages = [];
+        this.itemsCache = {};
         this.seed();
     }
 
@@ -44,24 +46,46 @@ export class Repository {
         this.classes = [
             new CharacterClass("Wizard", 
             ["Abjurer", "Conjurer", "Diviner", "Enchanter", "Evoker", "Illusionist", "Necromancer", "Transmuter"], 
-            require('../img/fire-bowl.png'), "seed()"),
+            "characters-1/lorc/fire-silhouette.png", "seed()"),
             new CharacterClass("Paladin", 
             ["Oath of the Ancients", "Oath of Devotion:", "Oath of Vengeance"], 
-            require('../img/fire-bowl.png'), "seed()"),
+            "characters-1/delapouite/cavalry.png", "seed()"),
             new CharacterClass("Rougue", 
             [], 
-            require('../img/fire-bowl.png'), "seed()")
+            "characters-1/lorc/muscle-up.png", "seed()")
         ];
         this.characters = Array.from(
             {length:7}, 
-            ()=>new Character("John "+(Math.random().toString()).substring(2, 4), "Wizard", "", "", ""));
+            (v, k)=>new Character((k%3==0 ? "John " : "Martin")+(Math.random().toString()).substring(2, 4), (k%2==0 ? "Wizard" : "Paladin"), "", "", ""));
         this.packages = Array.from(
             {length:4}, 
             ()=>new Package("Package "+(Math.random().toString()).substring(2, 4), "https://pastebin.com/raw/example"));
         
+        const possibleImages = Object.keys(IMAGES);
+        function displayName(path) {
+            const split = path.split("/");
+            const split2 = split[split.length-1].split(".");
+            return split2[0].split("-").map(e=>e.split("").map((v, k)=>k==0 ? e[0].toUpperCase() : v).join("")).join(" ");
+        }
         this.items = Array.from(
             { length: 15 },
-            () => new ItemData("Healing Potion " + (Math.random().toString()).substring(0, 5), undefined, undefined, undefined, undefined, "seed()"));
+            (v, k) => new ItemData(displayName(possibleImages[k]), possibleImages[k], 
+            undefined, undefined, undefined, "seed()"));
+    }
+
+    getItemByKey(key) {
+        if (itemsCache[key]) {
+            return itemsCache[key];
+        } else {
+            itemsCache[key] = this.items.find(i=>i.getKey()==key);
+            return itemsCache[key];
+        }
+    }
+
+    removePackage($package) {
+        this.packages = this.packages.filter(p=>p.name!==$package.name);
+        this.items = this.items.filter(p=>p.source!==$package.name);
+        this.classes = this.classes.filter(p=>p.source!==$package.name);
     }
 
     async addPackage($package) {
@@ -99,11 +123,11 @@ export class Repository {
     }
 
     characterGridItem(character) {
-        return new GridItemData(character.name, this.getImageForCharacter(character), character.getColor());
+        return new GridItemData(character.name, IMAGES[this.getImageForCharacter(character)], character.getColor());
     }
 
     itemGridItem(item) {
-        return new GridItemData(item.name, item.image, item.getColor());
+        return new GridItemData(item.name, IMAGES[item.image], item.getColor());
     }
 
     itemsAvailable(character) {
