@@ -52,7 +52,7 @@ export default styles = StyleSheet.create({
       fontSize:20,
       margin:10,
       left:5,
-      fontFamily:"roboto"
+      fontFamily:"dicefont"
     },
     image: {
       width: '80%',

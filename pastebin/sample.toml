@@ -1,8 +1,9 @@
 [Fireball]
 type="item"
-image="https:/"
-description="Ball made of fire."
-filter="((class=mage or class=paladin) and level>2) or (class=mage and level=1)"
+image="fire/carl-olsen/flame.png"
+description="Ball made of fire. Throw 2k10 for damage."
+icons=""
+filter="((equalText(characterClass, Wizard) or equalText(characterClass, Paladin)) and level>1) or (equalText(characterClass, Cleric) and level==1)"
 
 [Cleric]
 type="class"

@@ -24,16 +24,10 @@ export default class Inventory extends Component {
   constructor(props) {
     super(props);
 
-    const initalItems = number(Array.from(
-      { length: 15 },
-      () => new ItemData("Healing Potion " + (Math.random().toString()).substring(0, 5))));
-
-    const initialPanels = number(Array.from(
-      { length: 5 },
-      () => new Panel("Healing " + (Math.random().toString()).substring(2, 4), initalItems)));
-
     this.state = {
-      panels: initialPanels,
+      panels: Array.from(
+        { length: 5 },
+        ()=>new Panel("Panel", [])),
       selectedPanel: 0,
       editing: true,
       dragging: false
@@ -60,6 +54,7 @@ export default class Inventory extends Component {
       ];
       this.character = character;
 
+      this.updateItemsRefs(panels[this.state.selectedPanel].itemIds.length);
       this.setState(state=>({
         ...state,
         panels:panels
@@ -152,13 +147,13 @@ export default class Inventory extends Component {
   }
 
   itemClick(index) {
-    const item = this.getSelectedPanel().itemIds[index];
+    const item = REPOSITORY.getItemByKey(this.getSelectedPanel().itemIds[index]);
     const itemGridItem = REPOSITORY.itemGridItem(item);
     this.props.navigation.navigate("ItemDetails", {
       name: item.name,
       image: itemGridItem.image,
-      description: item.description,
-      icons: item.icons,
+      description: item.getParsedDescription(),
+      icons: item.getParsedIcons(),
       color: itemGridItem.color
     });
   }
@@ -200,7 +195,7 @@ export default class Inventory extends Component {
           <Pressable onPress={() => this.panelNameEdit.current?.open(this.getSelectedPanel().name)}>
             <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{this.getSelectedPanel().name || "---"}</Text>
           </Pressable>
-          <Grid items={number(this.getSelectedPanel().itemIds.map(REPOSITORY.itemGridItem.bind(REPOSITORY)))}
+          <Grid items={number(this.getSelectedPanel().itemIds.map(key=>REPOSITORY.itemGridItem(REPOSITORY.getItemByKey(key))))}
             onClick={this.itemClick.bind(this)}
             viewRef={index => this.itemRefs[index]}
             draggable={this.state.editing} onDragStart={_ => this.setDragging(true)}
