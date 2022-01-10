@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "pastebin": "npx http-server pastebin"
+    "pastebin": "npx http-server pastebin -c-1"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.6",

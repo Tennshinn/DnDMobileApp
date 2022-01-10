@@ -8,7 +8,7 @@ class CharacterClass {
     constructor(name, specializations, image, source) {
         this.name = name;
         this.specializations = specializations;
-        this.image = image;
+        this.image = image ?? "fire/carl-olsen/flame.png";
         this.source = source;
     }
 
@@ -89,18 +89,22 @@ export class Repository {
         }
     }
 
-    removePackage($package) {
-        this.packages = this.packages.filter(p => p.name !== $package.name);
-        this.items = this.items.filter(p => p.source !== $package.name);
-        this.classes = this.classes.filter(p => p.source !== $package.name);
+    removePackage(packageName) {
+        this.packages = this.packages.filter(p => p.name !== packageName);
+        this.items = this.items.filter(p => p.source !== packageName);
+        this.classes = this.classes.filter(p => p.source !== packageName);
     }
 
     async addPackage($package) {
-        this.packages.push($package);
+        try {
+            this.packages.push($package);
 
-        const resonse = await fetch($package.link);
-        const text = await resonse.text();
-        this.parsePackage($package.name, text);
+            const resonse = await fetch($package.link);
+            const text = await resonse.text();
+            this.parsePackage($package.name, text);
+        } catch (e) {
+            console.log("Error while downloading package", $package.name);
+        }
     }
 
     parsePackage(packageName, packageText) {
@@ -110,7 +114,7 @@ export class Repository {
 
             for (const [key, value] of Object.entries($package)) {
                 if (value.type == "item") {
-                    const newItem = new ItemData(key, value.image, value.description, undefined, value.filter, packageName);
+                    const newItem = new ItemData(key, value.image, value.description, value.icons, value.filter, packageName);
                     this.items.push(newItem);
                     console.log("Added item", newItem.getKey());
                 } else if (value.type == "class") {
@@ -147,10 +151,11 @@ export class Repository {
         }
         const parser = mathjs.parser();
         const evaluate = (text) => {
+            const LOG = true;
             try {
-                console.log(">", text);
+                if(LOG) console.log(">", text);
                 const result=parser.evaluate(text);
-                console.log("<", result);
+                if(LOG) console.log("<", result);
                 return result;
             }
             catch (e) {
@@ -160,7 +165,10 @@ export class Repository {
             }
         }
         for (const [key, value] of Object.entries(character)) {
-            evaluate(`${key}="${value}"`);
+            if (key=="level")
+                evaluate(`${key}=${value}`);
+            else
+                evaluate(`${key}="${value}"`);
         }
         for (const characterClass of this.classes) {
             evaluate(`${characterClass.name}="${characterClass.name}"`);

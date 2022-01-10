@@ -10,30 +10,28 @@ import LinearGradient from 'react-native-linear-gradient';
 const PackagesList= ({navigation, route}) => {
   const [packages, setPackages] = useState(REPOSITORY.packages);
   const [index, setIndex] = useState(0);
+  const [packageName, setPackageName] = useState(null);
 
   React.useEffect(() => {
     const data = route.params?.package;
     if(data) {
+      if (packageName)
+        REPOSITORY.removePackage(packageName);
+      
       const $package = new Package();
 
       for (const key of Object.keys(data)) {
         $package[key] = data[key];
       }
 
-      if(index<packages.length) {
-        setPackages(packages.map((p, i)=>i==index ? $package : p ));
-      } else {
-        // append a new character
-        setPackages([...packages, $package]);
-      }
       REPOSITORY.addPackage($package);
+
+      setPackages([...REPOSITORY.packages]);
     }
   }, [route.params?.package]);
 
-  const editPackage = (index=null) => {
-    if(index){
-      setIndex(index);
-    }
+  const editPackage = (packageName=null) => {
+    setPackageName(index);
     navigation.navigate('PackageEditor', {package:{...packages[index]}});
   }
 
@@ -42,8 +40,11 @@ const PackagesList= ({navigation, route}) => {
     <Text style={style.packagesRowHeader}>{name}</Text>
     <Text style={style.packagesRowLink}>{link}</Text>
     <View style={style.packagesButtonsRow}>
-      <RectangularButton title="EDIT" onPress={()=>editPackage(index)} />
-      <RectangularButton title="REMOVE" onPress={()=>setPackages(packages.filter(p=>p.index!=index))} />
+      <RectangularButton title="EDIT" onPress={()=>editPackage(packages[index].name)} />
+      <RectangularButton title="REMOVE" onPress={()=>{
+        REPOSITORY.removePackage(packages[index].name);
+        setPackages(REPOSITORY.packages);
+      }} />
     </View>
   </View>;
 
@@ -58,7 +59,7 @@ const PackagesList= ({navigation, route}) => {
           keyExtractor={p => p.index}
         />
         <LinearGradient colors={['#00000000', '#000000b0', '#000000bb']}
-        style={{position:"absolute", bottom:28, width:"100%", height:140}}
+        style={{position:"absolute", bottom:24, width:"100%", height:140}}
         >
         <CircleButton visible={true} title="NEW" onPress={() => editPackage(packages.length)}></CircleButton>
         </LinearGradient>

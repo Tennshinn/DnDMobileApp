@@ -195,7 +195,9 @@ export default class Inventory extends Component {
           <Pressable onPress={() => this.panelNameEdit.current?.open(this.getSelectedPanel().name)}>
             <Text style={[styles.text, { fontSize: 30, marginTop: 10 }]}>{this.getSelectedPanel().name || "---"}</Text>
           </Pressable>
-          <Grid items={number(this.getSelectedPanel().itemIds.map(key=>REPOSITORY.itemGridItem(REPOSITORY.getItemByKey(key))))}
+          <Grid items={number(this.getSelectedPanel().itemIds
+                      .filter(key=>REPOSITORY.getItemByKey(key)) // skip items that were removed with their package
+                      .map(key=>REPOSITORY.itemGridItem(REPOSITORY.getItemByKey(key))))}
             onClick={this.itemClick.bind(this)}
             viewRef={index => this.itemRefs[index]}
             draggable={this.state.editing} onDragStart={_ => this.setDragging(true)}

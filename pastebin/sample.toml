@@ -3,8 +3,9 @@ type="item"
 image="fire/carl-olsen/flame.png"
 description="Ball made of fire. Throw 2k10 for damage."
 icons=""
-filter="((equalText(characterClass, Wizard) or equalText(characterClass, Paladin)) and level>1) or (equalText(characterClass, Cleric) and level==1)"
+filter="((equalText(characterClass, Wizard) or equalText(characterClass, Paladin)) and level>2) or (equalText(characterClass, Cleric) and level>1)"
 
 [Cleric]
 type="class"
+image="characters-1/delapouite/vitruvian-man.png"
 specializations = ["Knowledge", "Life", "Light", "Tempest", "War"]
