@@ -1,0 +1,12 @@
+node > output
+paste:
+
+for (let i=0; i<50; i++){
+    console.log(`[Fireball${i}]
+    type="item"
+    image="fire/carl-olsen/flame.png"
+    description="Ball made of fire. Throw 2k10 for damage."
+    icons=""
+    filter=""
+    `)
+}
