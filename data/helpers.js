@@ -9,7 +9,7 @@ function hslToHex(h, s, l) {
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
-function hashString(s) {
+export function hashString(s) {
   return s.split("").reduce(function (a, b) { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0);
 };
 
@@ -17,7 +17,7 @@ function lerp(a, b, lerpFactor) {
   return ((1 - lerpFactor) * a) + (lerpFactor * b);
 }
 
-function lerpAngle(a, b, lerpFactor) // Lerps from angle a to b (both between 0.f and 360.f), taking the shortest path
+export function lerpAngle(a, b, lerpFactor) // Lerps from angle a to b (both between 0.f and 360.f), taking the shortest path
 {
   let result;
   let diff = b - a;

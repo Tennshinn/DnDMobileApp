@@ -11,7 +11,7 @@ const TEXT_TO_ICON = {
   d6 : "\uf18f"
 }
 
-function parseDice(text) {
+export function parseDice(text) {
   let result = text;
   const mappingsSortedByKeyLength = Object.entries(TEXT_TO_ICON).sort((a, b)=>b[0].length-a[0].length);
   for (let [k, v] of mappingsSortedByKeyLength) {
