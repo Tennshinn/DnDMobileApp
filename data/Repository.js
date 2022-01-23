@@ -165,10 +165,7 @@ export class Repository {
             }
         }
         for (const [key, value] of Object.entries(character)) {
-            if (key=="level")
-                evaluate(`${key}=${value}`);
-            else
-                evaluate(`${key}="${value}"`);
+            evaluate(`${key}="${value}"`);
         }
         for (const characterClass of this.classes) {
             evaluate(`${characterClass.name}="${characterClass.name}"`);
