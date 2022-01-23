@@ -1,5 +1,4 @@
 import React, {useState, Component} from "react";
-import DropDownPicker from 'react-native-dropdown-picker';
 import { SafeAreaView, Image, Text, View, TextInput, Button, Alert } from "react-native";
 import styles from "../styles";
 import RectangularButton from "../shared/RectangularButton";
@@ -11,18 +10,23 @@ export default class PackageEditor extends Component {
       name:"",
       link:""
     }
-    this._unsubscribe = props.navigation.addListener('focus', () => {
-      const $package = this.props.route?.params?.package;
-      this.setState(state=>{
-        if($package) {
-          const newState = {...state};
-          for (const key of Object.keys($package)) {
-            newState[key]=$package[key] || "";
+    const navigation = props.navigation;
+    if (navigation) {
+      this._unsubscribe = props.navigation.addListener('focus', () => {
+        const $package = this.props.route?.params?.package;
+        this.setState(state=>{
+          if($package) {
+            const newState = {...state};
+            for (const key of Object.keys($package)) {
+              newState[key]=$package[key] || "";
+            }
+            return newState;
           }
-          return newState;
-        }
+        });
       });
-    });
+    } else {
+      this._unsubscribe=()=>null;
+    }
   }
 
   componentWillUnmount() {
