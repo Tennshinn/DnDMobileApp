@@ -7,8 +7,6 @@ import { Alert } from 'react-native';
 jest.spyOn(Alert, 'alert');
 
 test('home screen contains navigation buttons', () => {
-    const allQuestions = ['q1', 'q2'];
-    const mockFn = jest.fn();
 
     const { getByText } = render(
         <HomeScreen />
@@ -22,14 +20,11 @@ test('home screen contains navigation buttons', () => {
 });
 
 test('alert on empty package name', async () => {
-    const allQuestions = ['q1', 'q2'];
-    const mockFn = jest.fn();
 
     const { getByText } = render(
         <PackageEditor />
     );
 
-    // sample name taken from the repository 
     const saveButton = getByText('Save');
 
     fireEvent.press(saveButton);

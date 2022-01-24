@@ -1,4 +1,6 @@
-node > output
+1. In console:
+
+node > pastebin/stress.toml
 paste:
 
 for (let i=0; i<50; i++){
@@ -10,3 +12,8 @@ for (let i=0; i<50; i++){
     filter=""
     `)
 }
+
+2. Clean up the file so it only contains .toml code.
+3. Start pastebin mock server.
+4. Import the package into the app.
+5. Go to any character and check how smooth it works.
